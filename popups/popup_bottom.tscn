@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3chjnnwt2nwx"]
+
+[ext_resource type="Script" uid="uid://cnn167s464tdp" path="res://popups/popup_bottom.gd" id="1_516rx"]
+
+[node name="Bottom" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+script = ExtResource("1_516rx")
+
+[node name="Cancel" type="Button" parent="."]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Apply" type="Button" parent="."]
+layout_mode = 2
+text = "Apply"

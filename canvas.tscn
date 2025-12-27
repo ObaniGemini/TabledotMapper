@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://caem05fuym3pk"]
+
+[ext_resource type="Script" uid="uid://yi5ttqv6yjdw" path="res://canvas.gd" id="1_75aqd"]
+[ext_resource type="PackedScene" uid="uid://c5tmtheuiwpqe" path="res://scenes/brush.tscn" id="2_pfdkn"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_75aqd"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Canvas" type="Node2D"]
+script = ExtResource("1_75aqd")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+oversampling = false
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewport"]
+centered = false
+
+[node name="Viewport" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_75aqd")
+
+[node name="Brush" parent="." instance=ExtResource("2_pfdkn")]
+
+[node name="Camera2D" type="Camera2D" parent="."]

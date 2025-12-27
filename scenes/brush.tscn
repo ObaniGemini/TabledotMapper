@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5tmtheuiwpqe"]
+
+[ext_resource type="Script" uid="uid://cfrgccl3w1vhc" path="res://scenes/brush.gd" id="1_taygo"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_taygo"]
+
+[node name="Brush" type="Sprite2D"]
+texture = SubResource("ImageTexture_taygo")
+script = ExtResource("1_taygo")
