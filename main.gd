@@ -21,6 +21,7 @@ func save(map_name: String):
 
 
 func brush_color(c: Color):
+	$UI.get_node("Submenus/Brushparameters").set_color(c)
 	if canvas:
 		canvas.brush.update_properties(canvas.brush.size, c)
 

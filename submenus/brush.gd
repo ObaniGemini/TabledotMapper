@@ -48,3 +48,6 @@ func _update_size(v: float):
 
 func _update_brush(id: int):
 	update_brush.emit(brushes[id])
+
+func set_color(c: Color):
+	$HBoxContainer/Color.color = c

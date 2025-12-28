@@ -10,7 +10,7 @@ viewport_path = NodePath("SubViewport")
 [node name="Canvas" type="Node2D"]
 script = ExtResource("1_75aqd")
 
-[node name="Node" type="Node" parent="."]
+[node name="History" type="Node" parent="."]
 script = ExtResource("2_15w7l")
 
 [node name="SubViewport" type="SubViewport" parent="."]
