@@ -1,0 +1,60 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1766885657
+canvas.gd::GDScript::1702903732869489904::1766884772::0::1::::<>Node2D<><>0<>0<><>::
+canvas.tscn::PackedScene::4781873711529072664::1766883590::0::1::::<><><>0<>0<><>::uid://yi5ttqv6yjdw::::res://canvas.gd<>uid://c5tmtheuiwpqe::::res://scenes/brush.tscn
+icon.svg::CompressedTexture2D::6132538078736733172::1766772885::1766885658::1::::<><><>0<>0<>ed348163bb8e6c17fbc73109d8191a2d<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+main.gd::GDScript::7162771000399380370::1766884854::0::1::::<>Node2D<><>0<>0<><>::
+main.tscn::PackedScene::7498331207415235303::1766884898::0::1::::<><><>0<>0<><>::uid://dabx16ofjn1as::::res://main.gd<>uid://bcr83y22mm7cp::::res://ui.tscn
+README.md::TextFile::-1::1766855381::0::1::::<><><>0<>0<><>::
+ui.gd::GDScript::1375807072298893989::1766884651::0::1::::<>CanvasLayer<><>0<>0<><>::
+ui.tscn::PackedScene::2563947759292236307::1766884772::0::1::::<><><>0<>0<><>::uid://cq8addigbiajh::::res://menu/new.png<>uid://tuplu0io8054::::res://ui.gd<>uid://cdf0h64eba66c::::res://menu/save.png<>uid://d3i1p4a6a35xm::::res://menu/paint.png<>uid://djnig1eitlucs::::res://submenus/brush.tscn
+::res://brushes/::1766885596
+0008.png::CompressedTexture2D::1073976973076437666::1766831985::1766885658::1::::<><><>0<>0<>4f5ab7303813841124b025064264fe83<>res://.godot/imported/0008.png-4df5792d8c0f008c3a42a2b056094fc6.ctex::
+BRUH TIPS RICE 0005.png::CompressedTexture2D::4690352285952401136::1766832002::1766885658::1::::<><><>0<>0<>8a8900d4e2073d56afd4b803bba18386<>res://.godot/imported/BRUH TIPS RICE 0005.png-ca2c1cca40ddcacc2cefa20456132bf1.ctex::
+Brush6.png::CompressedTexture2D::5553453956547004007::1766831967::1766885658::1::::<><><>0<>0<>33c3a90536f28a7a37e2331ae845a2d5<>res://.godot/imported/Brush6.png-89c03438f6e9b7b2fd0d7ee5e45738f5.ctex::
+BRUSH TIP 0004.png::CompressedTexture2D::1424064244118623574::1766832028::1766885658::1::::<><><>0<>0<>5021dcdce8aef5f33edec474f510ea83<>res://.godot/imported/BRUSH TIP 0004.png-99941e28bbfc5772a559faf7334f0cbe.ctex::
+bts 001.png::CompressedTexture2D::7185727659118321566::1766832105::1766885658::1::::<><><>0<>0<>e27402f9229cc07b315b91e60ff9025a<>res://.godot/imported/bts 001.png-cdec1702772d544686c02031beb5cc21.ctex::
+bts 004.png::CompressedTexture2D::2470399224961397771::1766832122::1766885658::1::::<><><>0<>0<>571eaaa129b0dfe90464fa0494d35eb4<>res://.godot/imported/bts 004.png-45c97429dd50c6eb573fb17503e7ca31.ctex::
+bts 008.png::CompressedTexture2D::2620169420359514532::1766832136::1766885658::1::::<><><>0<>0<>1f025ab90fc0dc4909e8cc956159f7a1<>res://.godot/imported/bts 008.png-a17d0a9565565a3a87b36b01a0817336.ctex::
+bts 010.png::CompressedTexture2D::7755541831701982669::1766832150::1766885658::1::::<><><>0<>0<>1e6a4a72cc5ecfe96e3fc36dbe82b363<>res://.godot/imported/bts 010.png-72b498c16ef9035f3f70444e9e454b73.ctex::
+bts 011.png::CompressedTexture2D::4509881286080177928::1766832177::1766885658::1::::<><><>0<>0<>363bd4a9c92da7ff2d1312ca70fcf7ce<>res://.godot/imported/bts 011.png-121cee3be73909a033fbf68bfdaba094.ctex::
+bts 014.png::CompressedTexture2D::1631316293596758168::1766832209::1766885658::1::::<><><>0<>0<>985cb8d3a7845c0a74dce05643d7a146<>res://.godot/imported/bts 014.png-a9330810d1820d9c48a647de38356d26.ctex::
+bts 016.png::CompressedTexture2D::551482516592837483::1766832234::1766885658::1::::<><><>0<>0<>1c712f50e5e1c25ba13799a3f320ce4a<>res://.godot/imported/bts 016.png-725a63d3b9bfe6fe6024d62eb7bef246.ctex::
+bts 019.png::CompressedTexture2D::7089251546002944680::1766832366::1766885658::1::::<><><>0<>0<>5db102384e68eac888ec21ae96d42c73<>res://.godot/imported/bts 019.png-6216ce70fe151a08e1216d8322b8e0b0.ctex::
+bts.png::CompressedTexture2D::793960043515684802::1766832064::1766885658::1::::<><><>0<>0<>35140f8088ba9d062181bed16836866e<>res://.godot/imported/bts.png-ed5af1f23dca88eb58e288b25f7b92b7.ctex::
+creature design nature brush tips 005.png::CompressedTexture2D::2973604392278082539::1766832370::1766885659::1::::<><><>0<>0<>7709a996f00f3d862754ccc565157b22<>res://.godot/imported/creature design nature brush tips 005.png-2149da81f5224f4584f9e2e807eea094.ctex::
+creature design nature brush tips 068.png::CompressedTexture2D::4736464065337098910::1766832373::1766885658::1::::<><><>0<>0<>0bcd01e49db014f2bed645c99bdf6b2c<>res://.godot/imported/creature design nature brush tips 068.png-8bac8d05cf553d408cfed3c1457239c2.ctex::
+grain.png::CompressedTexture2D::4372467817308484683::1766833173::1766885658::1::::<><><>0<>0<>e23fa3e6c5ffbd5358b1e18d3e5cf472<>res://.godot/imported/grain.png-828f5601ce7b9a14fefdc6a83f3b36d6.ctex::
+gravel.png::CompressedTexture2D::2363288630941078517::1766833237::1766885658::1::::<><><>0<>0<>664e085415bb59cf9c5d5b76b275d805<>res://.godot/imported/gravel.png-010d72a466c369b2a17cdaee35abd05e.ctex::
+IMG_20250707_030747934 1.png::CompressedTexture2D::5425105578806030176::1766832375::1766885658::1::::<><><>0<>0<>c2505c2d4cc6c808c48ccea82335fd5a<>res://.godot/imported/IMG_20250707_030747934 1.png-d96b438541d46fba3a5219bfde1c6366.ctex::
+IMG_20250707_030747934 5.png::CompressedTexture2D::3952565677495829465::1766832378::1766885658::1::::<><><>0<>0<>0a125624ec5f2325686570158033dd47<>res://.godot/imported/IMG_20250707_030747934 5.png-090e9b8e65409d4fe8e5f2fe814cdf29.ctex::
+IMG_20250707_030747934 7.png::CompressedTexture2D::5903649573354180778::1766832381::1766885658::1::::<><><>0<>0<>a1266b10a1a894b4ce42bdd60f53b91d<>res://.godot/imported/IMG_20250707_030747934 7.png-db4197d0b281fe54efdb2e80a29d51d7.ctex::
+IMG_20250707_030747934 8.png::CompressedTexture2D::8293537916915946657::1766832383::1766885658::1::::<><><>0<>0<>54353e9fdd3a069acd5b1e13ac012801<>res://.godot/imported/IMG_20250707_030747934 8.png-24d119df21cc2bbb94b52f0768440048.ctex::
+IMG_20250707_030747934 9.png::CompressedTexture2D::6142586562102229082::1766832386::1766885658::1::::<><><>0<>0<>d28ddba054fed6735b041751c2f62cf7<>res://.godot/imported/IMG_20250707_030747934 9.png-726db0560c30d2027ccfcabe33a6a74e.ctex::
+IMG_20250707_030747934 10.png::CompressedTexture2D::4389053512967125237::1766832389::1766885658::1::::<><><>0<>0<>507e86a48d8de302a84e990605a82a51<>res://.godot/imported/IMG_20250707_030747934 10.png-b94cf9e002c5d43daa637c692ddd78b5.ctex::
+IMG_20250707_030747934 13.png::CompressedTexture2D::5907943210312162103::1766832391::1766885658::1::::<><><>0<>0<>8cdaa6e584150bc70a39ab8b86640a2d<>res://.godot/imported/IMG_20250707_030747934 13.png-26460114f7baf58cff46cf84798610c7.ctex::
+IMG_20250707_030747934 14.png::CompressedTexture2D::8316582847748903093::1766832393::1766885658::1::::<><><>0<>0<>fd1cda539a40e4b21493f5707fddaf13<>res://.godot/imported/IMG_20250707_030747934 14.png-e7146150f071a4231a9560bdbe35a97c.ctex::
+IMG_20250707_030747934 15.png::CompressedTexture2D::2634421479096546934::1766832395::1766885658::1::::<><><>0<>0<>b31d88672e715f61a474f70c81bda4bc<>res://.godot/imported/IMG_20250707_030747934 15.png-695ca8d0a659ae0e0fb6ac308200955a.ctex::
+IMG_20250707_030747934 16.png::CompressedTexture2D::3188669586046085473::1766832397::1766885658::1::::<><><>0<>0<>4fb963fd33b0160533f39f94c4beeb36<>res://.godot/imported/IMG_20250707_030747934 16.png-a316594f40af50344cecf8ba599bcd4b.ctex::
+sand.png::CompressedTexture2D::2074748821979173472::1766833093::1766885658::1::::<><><>0<>0<>b5d19408e11b65dc8ed4f415f20e97ad<>res://.godot/imported/sand.png-72b2f17b2e229ce8ecf105e7ce29b22e.ctex::
+spike_eroded.png::CompressedTexture2D::4317547530073688563::1766832399::1766885658::1::::<><><>0<>0<>df845636107ce93190dadd280b31761f<>res://.godot/imported/spike_eroded.png-54baf2fa1a63d57d1a373e605cc16a32.ctex::
+Untigfddftled.png::CompressedTexture2D::4264665498486348893::1766832539::1766885658::1::::<><><>0<>0<>ac6a98f70d5d0a18830975e5dbe70764<>res://.godot/imported/Untigfddftled.png-852f624d1d6c9e1cf474a3da7992cd20.ctex::
+::res://menu/::1766885593
+icons.svg::CompressedTexture2D::5371156233490198446::1766779819::1766885658::1::::<><><>0<>0<>2d2ed2d4a4b61a69eabf59f7a3138040<>res://.godot/imported/icons.svg-d76f962dafa024276d42d34519c93a20.ctex::
+new.png::CompressedTexture2D::5963992859063156937::1766773338::1766885658::1::::<><><>0<>0<>178e8a5bbff3bdda5b77b319d1850693<>res://.godot/imported/new.png-1e30ac8ae881b66f509a42ee347fd584.ctex::
+paint.png::CompressedTexture2D::9142671648283977938::1766791172::1766885658::1::::<><><>0<>0<>b1ebe937fc0b49d5d4c2532fd564d9d0<>res://.godot/imported/paint.png-efb14bc3f70224f8298c9c9c3b9c3f24.ctex::
+save.png::CompressedTexture2D::4995261885653391468::1766779817::1766885658::1::::<><><>0<>0<>97c7f0d65e3ae073911c505e3dab37d7<>res://.godot/imported/save.png-111aa691c6d96707453c11244e8c20c6.ctex::
+::res://popups/::1766885596
+newmap.gd::GDScript::7571288192487517369::1766775727::0::1::::<>VBoxContainer<><>0<>0<><>::
+newmap.tscn::PackedScene::520362950221460070::1766836256::0::1::::<><><>0<>0<><>::uid://df4ual73ydm06::::res://popups/newmap.gd
+popup_bottom.gd::GDScript::5713768956820279737::1766775035::0::1::::<>HBoxContainer<><>0<>0<><>::
+popup_bottom.tscn::PackedScene::9129120223458894783::1766776038::0::1::::<><><>0<>0<><>::uid://cnn167s464tdp::::res://popups/popup_bottom.gd
+save.gd::GDScript::1321633132700229885::1766779977::0::1::::<>VBoxContainer<><>0<>0<><>::
+save.tscn::PackedScene::6076871739204271162::1766785438::0::1::::<><><>0<>0<><>::uid://s3hds6kfpyrt::::res://popups/save.gd
+::res://scenes/::1766885596
+brush.gd::GDScript::5159248004281975348::1766855579::0::1::::<>Sprite2D<><>0<>0<><>::
+brush.tscn::PackedScene::6918492762614650384::1766855579::0::1::::<><><>0<>0<><>::uid://cfrgccl3w1vhc::::res://scenes/brush.gd
+::res://submenus/::1766885596
+brush.gd::GDScript::5907987564900789379::1766884936::0::1::::<>SubMenu<><>0<>0<><>::
+brush.tscn::PackedScene::7818296377505583534::1766885483::0::1::::<><><>0<>0<><>::uid://cqf4xr8nov7md::::res://submenus/brush.gd
+submenu.gd::GDScript::6359504832302252298::1766884552::0::1::::SubMenu<>Control<><>0<>0<><>::

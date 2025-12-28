@@ -20,5 +20,6 @@ centered = false
 texture = SubResource("ViewportTexture_75aqd")
 
 [node name="Brush" parent="." instance=ExtResource("2_pfdkn")]
+position = Vector2(-1, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]

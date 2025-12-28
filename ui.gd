@@ -48,6 +48,10 @@ func _ready():
 	$Panel/VBoxContainer/Save.pressed.connect(add_popup.bind(get_parent().save, POPUP_SAVE))
 	
 	$Panel/VBoxContainer/Save.disabled = true
+	
+	$Submenus/Brushparameters.update_color.connect(get_parent().brush_color)
+	$Submenus/Brushparameters.update_size.connect(get_parent().brush_size)
+	$Submenus/Brushparameters.update_brush.connect(get_parent().brush_texture)
 
 
 func new_map(dim: Array):

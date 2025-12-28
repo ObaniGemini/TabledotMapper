@@ -20,6 +20,9 @@ func _ready():
 	$Camera2D.zoom = Vector2(1024.0, 1024.0) / Vector2(width, height).length()
 	goal_zoom = $Camera2D.zoom.x
 	max_zoom = goal_zoom * 0.5
+	
+	brush.update_brush(get_parent().get_brush_texture())
+	brush.update_properties(get_parent().get_brush_size(), get_parent().get_brush_color())
 
 func blit():
 	texture.update(image)
@@ -39,9 +42,6 @@ func paint(pos: Vector2):
 	canvas_rect.size -= Vector2i( maxi( width, canvas_rect.position.x + canvas_rect.size.x ), maxi( height, canvas_rect.position.y + canvas_rect.size.y ) ) - Vector2i( width, height )
 	
 	var brush_rect := Rect2i( canvas_rect.position.x - base_rect.position.x, canvas_rect.position.y - base_rect.position.y, canvas_rect.size.x, canvas_rect.size.y )
-	
-	print(brush_rect)
-	print(canvas_rect)
 	
 	image.blend_rect(brush.image, brush_rect, canvas_rect.position)
 	

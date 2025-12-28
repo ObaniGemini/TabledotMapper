@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcr83y22mm7cp"]
+[gd_scene load_steps=6 format=3 uid="uid://bcr83y22mm7cp"]
 
 [ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://menu/new.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://tuplu0io8054" path="res://ui.gd" id="1_m6e0p"]
 [ext_resource type="Texture2D" uid="uid://cdf0h64eba66c" path="res://menu/save.png" id="3_27fn8"]
 [ext_resource type="Texture2D" uid="uid://d3i1p4a6a35xm" path="res://menu/paint.png" id="4_nltto"]
+[ext_resource type="PackedScene" uid="uid://djnig1eitlucs" path="res://submenus/brush.tscn" id="5_ibotj"]
 
 [node name="UI" type="CanvasLayer"]
 layer = 128
@@ -40,6 +41,18 @@ texture_pressed = ExtResource("4_nltto")
 texture_hover = ExtResource("4_nltto")
 texture_disabled = ExtResource("4_nltto")
 texture_focused = ExtResource("4_nltto")
+
+[node name="Submenus" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 64.0
+offset_right = 64.0
+mouse_filter = 2
+
+[node name="Brushparameters" parent="Submenus" node_paths=PackedStringArray("linked") instance=ExtResource("5_ibotj")]
+layout_mode = 0
+offset_bottom = 64.0
+linked = NodePath("../../Panel/VBoxContainer/Paint")
 
 [node name="Popup" type="PanelContainer" parent="."]
 visible = false

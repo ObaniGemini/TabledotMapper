@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://djnig1eitlucs"]
+
+[ext_resource type="Script" uid="uid://cqf4xr8nov7md" path="res://submenus/brush.gd" id="1_3k8q0"]
+
+[node name="Brushparameters" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 64)
+offset_right = 176.0
+offset_bottom = 40.0
+script = ExtResource("1_3k8q0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Color" type="ColorPickerButton" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "Color"
+
+[node name="Size" type="SpinBox" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+min_value = 2.0
+max_value = 512.0
+step = 2.0
+value = 256.0
+rounded = true
+
+[node name="Brush" type="OptionButton" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1

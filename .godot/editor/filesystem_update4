@@ -1,0 +1,7 @@
+res://scenes/brush.tscn
+res://scenes/brush.gd
+res://canvas.gd
+res://ui.tscn
+res://submenus/brush.gd
+res://main.gd
+res://main.tscn
