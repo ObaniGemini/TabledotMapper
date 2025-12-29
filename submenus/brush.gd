@@ -27,6 +27,10 @@ func _ready():
 				im.resize(64, 64)
 				$Brush.add_icon_item(ImageTexture.create_from_image(im), "")
 	
+	$Color.color = config.GET("brush_color")
+	$Size/Slider.value = config.GET("brush_size")
+	$Brush.selected = brushes.find(config.GET("brush_texture"))
+	
 	$Color.color_changed.connect(_update_color)
 	$Size/Slider.value_changed.connect(_update_size)
 	$Brush.item_selected.connect(_update_brush)
@@ -41,13 +45,17 @@ func brush() -> CompressedTexture2D:
 	return load(brushes[$Brush.get_selected_id()])
 
 func _update_color(c: Color):
+	config.SET("brush_color", c)
 	update_color.emit(c)
 
 func _update_size(v: float):
+	config.SET("brush_size", v)
 	update_size.emit(int(v))
 
 func _update_brush(id: int):
+	config.SET("brush_texture", brushes[id])
 	update_brush.emit(load(brushes[id]))
 
 func set_color(c: Color):
+	config.SET("brush_color", c)
 	$Color.color = c

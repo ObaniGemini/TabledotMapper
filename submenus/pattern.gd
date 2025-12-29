@@ -23,6 +23,15 @@ func _ready():
 				im.resize(64, 64)
 				$Pattern.add_icon_item(ImageTexture.create_from_image(im), "")
 	
+	$Pattern.selected = brushes.find(config.GET("pattern_texture"))
+	$PatternSize/Slider.value = config.GET("pattern_size")
+	$Rotation/Slider.value = config.GET("pattern_rotation")
+	$Offset/X.value = config.GET("pattern_offset").x
+	$Offset/Y.value = config.GET("pattern_offset").y
+	$BrushSize/Slider.value = config.GET("pattern_brush_size")
+	$BrushRoughness/Slider.value = config.GET("pattern_brush_roughness")
+	$Color.color = config.GET("pattern_brush_color")
+	
 	$Pattern.item_selected.connect(_update_pattern)
 	$PatternSize/Slider.value_changed.connect(_update_pattern_size)
 	$Rotation/Slider.value_changed.connect(_update_pattern_rotation)
@@ -64,28 +73,37 @@ func brush_color() -> Color:
 
 
 func _update_pattern(id: int):
+	config.SET("pattern_texture", brushes[id])
 	update_pattern.emit(load(brushes[id]))
 
 func _update_pattern_size(s: float):
+	config.SET("pattern_size", s)
 	update_pattern_size.emit(s)
 
 func _update_pattern_rotation(r: float):
+	config.SET("pattern_rotation", r)
 	update_pattern_rotation.emit(r)
 
 func _update_pattern_offset(v: float, x : bool):
-	update_pattern_offset.emit(Vector2(v, $Offset/Y.value) if x else Vector2($Offset/X.value, v))
+	var o := Vector2(v, $Offset/Y.value) if x else Vector2($Offset/X.value, v)
+	config.SET("pattern_offset", o)
+	update_pattern_offset.emit(o)
 
 func _update_brush_size(s: float):
+	config.SET("pattern_brush_size", s)
 	update_brush_size.emit(s)
 
 func _update_brush_roughness(r: float):
+	config.SET("pattern_brush_roughness", r)
 	update_brush_roughness.emit(r)
 
 func _update_brush_color(c: Color):
+	config.SET("pattern_brush_color", c)
 	update_brush_color.emit(c)
 
 
 
 
 func set_brush_color(c: Color):
+	config.SET("pattern_brush_color", c)
 	$Color.color = c

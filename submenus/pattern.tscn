@@ -76,6 +76,7 @@ mouse_filter = 1
 min_value = -0.5
 max_value = 0.5
 step = 0.0
+value = 0.5
 
 [node name="Label3" type="Label" parent="Offset"]
 layout_mode = 2
@@ -89,6 +90,7 @@ mouse_filter = 1
 min_value = -0.5
 max_value = 0.5
 step = 0.0
+value = 0.5
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2
