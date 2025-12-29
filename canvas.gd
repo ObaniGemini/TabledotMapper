@@ -7,11 +7,16 @@ var height := 1
 @onready var texture := ImageTexture.create_from_image(canvas)
 @onready var viewport := $SubViewport
 @onready var brush := $Brush
+@onready var pattern := $PatternViewport
 
 func _ready():
 	print("Generating map of " + str(width) + "x" + str(height))
 	$SubViewport.size.x = width
 	$SubViewport.size.y = height
+	$PatternViewport.size.x = width
+	$PatternViewport.size.y = height
+	
+	$PatternViewport/Sprite2D.scale = Vector2(30000.0, 30000.0)
 	$SubViewport/Sprite2D.texture = texture
 	
 	canvas.fill(Color(1, 1, 1))
@@ -24,9 +29,25 @@ func _ready():
 	brush.update_brush(get_parent().get_brush_texture())
 	brush.update_properties(get_parent().get_brush_size(), get_parent().get_brush_color())
 	
+	pattern.set_pattern(get_parent().get_pattern_texture())
+	pattern.set_pattern_size(get_parent().get_pattern_size())
+	pattern.set_pattern_rotation(get_parent().get_pattern_rotation())
+	pattern.set_pattern_offset(get_parent().get_pattern_offset())
+	pattern.set_brush_size(get_parent().get_pattern_brush_size())
+	pattern.set_brush_roughness(get_parent().get_pattern_brush_roughness())
+	pattern.set_brush_color(get_parent().get_pattern_brush_color())
+	
+	
 	$History.init_canvas(width, height, canvas)
 	$History.changed.connect(history_changed)
 
+
+var paint_mode := false
+func set_paint_mode(paint_mode_pattern : bool):
+	paint_mode = paint_mode_pattern
+	$Brush.visible = !paint_mode
+	$Pattern.visible = paint_mode
+	
 
 func history_changed(type: History.Type, state):
 	match type:
@@ -42,27 +63,34 @@ func blit():
 
 
 
-
 var canvas_updated := false
 func paint(pos: Vector2):
+	if !get_parent().can_edit():
+		return
+	
+	var brush_size : int = int(pattern.brush_size) if paint_mode else brush.size
+	
 	var p := Vector2i(mouse_to_viewport(pos))
-	var off : int = brush.size / 2
-	var base_rect := Rect2i(p.x - off, p.y - off, brush.size, brush.size)
+	var off : int = brush_size / 2
+	var base_rect := Rect2i(p.x - off, p.y - off, brush_size, brush_size)
 	var canvas_rect := base_rect
 
 	# clamp
-	canvas_rect.size += Vector2i( mini( 0, canvas_rect.position.x ), mini( 0, canvas_rect.position.y ) )
-	canvas_rect.position = Vector2i( maxi( 0, canvas_rect.position.x ), maxi( 0, canvas_rect.position.y ) )
-	canvas_rect.size -= Vector2i( maxi( width, canvas_rect.position.x + canvas_rect.size.x ), maxi( height, canvas_rect.position.y + canvas_rect.size.y ) ) - Vector2i( width, height )
-	canvas_rect.size = Vector2i( maxi( 0, canvas_rect.size.x ), maxi( 0, canvas_rect.size.y ) )
+	canvas_rect.size += Vector2i(mini(0, canvas_rect.position.x), mini(0, canvas_rect.position.y))
+	canvas_rect.position = Vector2i(maxi(0, canvas_rect.position.x), maxi(0, canvas_rect.position.y))
+	canvas_rect.size -= Vector2i(maxi(width, canvas_rect.position.x + canvas_rect.size.x), maxi(height, canvas_rect.position.y + canvas_rect.size.y)) - Vector2i(width, height)
+	canvas_rect.size = Vector2i(maxi(0, canvas_rect.size.x), maxi(0, canvas_rect.size.y))
 	
-	var brush_rect := Rect2i( canvas_rect.position.x - base_rect.position.x, canvas_rect.position.y - base_rect.position.y, canvas_rect.size.x, canvas_rect.size.y )
+	var brush_rect := Rect2i(canvas_rect.position.x - base_rect.position.x, canvas_rect.position.y - base_rect.position.y, canvas_rect.size.x, canvas_rect.size.y)
 	if canvas_rect.size.x == 0 or canvas_rect.size.y == 0:
 		return
 	
 	
 	canvas_updated = true
-	canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
+	if paint_mode:
+		canvas.blend_rect(pattern.get_texture().get_image(), canvas_rect, canvas_rect.position)
+	else:
+		canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
 	blit()
 
 
@@ -75,13 +103,19 @@ func sample_color(pos: Vector2):
 		get_parent().brush_color(color)
 
 
+func update_mouse_pos(p: Vector2):
+	var pos = mouse_to_viewport(p)
+	$Brush.position = pos - Vector2(width, height) * 0.5
+	pattern.set_brush_pos(pos)
+
+
 const MOUSE_OFF := Vector2(-1, -1)
 var mouse_previous := MOUSE_OFF
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("sample_color"):
 		sample_color(mouse_to_viewport(event.position))
 	elif event is InputEventMouseMotion:
-		$Brush.position = mouse_to_viewport(event.position) - Vector2(width, height) * 0.5
+		update_mouse_pos(event.position)
 		
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			if mouse_previous.x >= 0:

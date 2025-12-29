@@ -1,0 +1,136 @@
+[gd_scene load_steps=3 format=3 uid="uid://g03wsqigjovs"]
+
+[ext_resource type="Script" uid="uid://lx7ftsyjob7e" path="res://submenus/pattern.gd" id="1_qnoq8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qnoq8"]
+font_size = 24
+
+[node name="Patternparameters" type="VBoxContainer"]
+custom_minimum_size = Vector2(256, 64)
+offset_right = 176.0
+offset_bottom = 64.0
+script = ExtResource("1_qnoq8")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Pattern"
+label_settings = SubResource("LabelSettings_qnoq8")
+horizontal_alignment = 1
+
+[node name="Pattern" type="OptionButton" parent="."]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="PatternSize" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PatternSize"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Size"
+
+[node name="Slider" type="HSlider" parent="PatternSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+min_value = 1.0
+max_value = 50.0
+step = 0.0
+value = 20.0
+
+[node name="Rotation" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Rotation"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Rotation"
+
+[node name="Slider" type="HSlider" parent="Rotation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+min_value = -180.0
+max_value = 180.0
+step = 0.0
+
+[node name="Offset" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Offset"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Offset"
+
+[node name="Label2" type="Label" parent="Offset"]
+layout_mode = 2
+text = "X:"
+
+[node name="X" type="HSlider" parent="Offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+min_value = -0.5
+max_value = 0.5
+step = 0.0
+
+[node name="Label3" type="Label" parent="Offset"]
+layout_mode = 2
+text = "Y:"
+
+[node name="Y" type="HSlider" parent="Offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+min_value = -0.5
+max_value = 0.5
+step = 0.0
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Brush"
+label_settings = SubResource("LabelSettings_qnoq8")
+horizontal_alignment = 1
+
+[node name="BrushSize" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BrushSize"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "Size"
+
+[node name="Slider" type="HSlider" parent="BrushSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+min_value = 1.0
+max_value = 1024.0
+step = 0.0
+value = 256.0
+exp_edit = true
+
+[node name="BrushRoughness" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BrushRoughness"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "Roughness"
+
+[node name="Slider" type="HSlider" parent="BrushRoughness"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 1
+max_value = 1.0
+step = 0.0
+
+[node name="Color" type="ColorPicker" parent="."]
+layout_mode = 2
+alignment = 1

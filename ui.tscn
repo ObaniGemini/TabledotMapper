@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcr83y22mm7cp"]
+[gd_scene load_steps=9 format=3 uid="uid://bcr83y22mm7cp"]
 
-[ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://menu/new.png" id="1_fyqef"]
+[ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://Data/menu/new.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://tuplu0io8054" path="res://ui.gd" id="1_m6e0p"]
-[ext_resource type="Texture2D" uid="uid://cdf0h64eba66c" path="res://menu/save.png" id="3_27fn8"]
-[ext_resource type="Texture2D" uid="uid://d3i1p4a6a35xm" path="res://menu/paint.png" id="4_nltto"]
+[ext_resource type="Texture2D" uid="uid://cdf0h64eba66c" path="res://Data/menu/save.png" id="3_27fn8"]
+[ext_resource type="Texture2D" uid="uid://cc180hcg6o08y" path="res://Data/menu/export.png" id="4_n5ude"]
+[ext_resource type="Texture2D" uid="uid://d3i1p4a6a35xm" path="res://Data/menu/brush.png" id="4_nltto"]
 [ext_resource type="PackedScene" uid="uid://djnig1eitlucs" path="res://submenus/brush.tscn" id="5_ibotj"]
+[ext_resource type="Texture2D" uid="uid://bx526f3f358fx" path="res://Data/menu/pattern.png" id="6_y4yjw"]
+[ext_resource type="PackedScene" uid="uid://g03wsqigjovs" path="res://submenus/pattern.tscn" id="8_waa4j"]
 
 [node name="UI" type="CanvasLayer"]
 layer = 128
@@ -20,6 +23,7 @@ layout_mode = 2
 
 [node name="NewImage" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
+tooltip_text = "New/Load map"
 texture_normal = ExtResource("1_fyqef")
 texture_pressed = ExtResource("1_fyqef")
 texture_hover = ExtResource("1_fyqef")
@@ -28,31 +32,75 @@ texture_focused = ExtResource("1_fyqef")
 
 [node name="Save" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
+tooltip_text = "Save map"
 texture_normal = ExtResource("3_27fn8")
 texture_pressed = ExtResource("3_27fn8")
 texture_hover = ExtResource("3_27fn8")
 texture_disabled = ExtResource("3_27fn8")
 texture_focused = ExtResource("3_27fn8")
 
-[node name="Paint" type="TextureButton" parent="Panel/VBoxContainer"]
+[node name="Export" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
+tooltip_text = "Save map"
+texture_normal = ExtResource("4_n5ude")
+texture_pressed = ExtResource("4_n5ude")
+texture_hover = ExtResource("4_n5ude")
+texture_disabled = ExtResource("4_n5ude")
+texture_focused = ExtResource("4_n5ude")
+
+[node name="Brush" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Paint tool"
 texture_normal = ExtResource("4_nltto")
 texture_pressed = ExtResource("4_nltto")
 texture_hover = ExtResource("4_nltto")
 texture_disabled = ExtResource("4_nltto")
 texture_focused = ExtResource("4_nltto")
 
-[node name="Submenus" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 64.0
-offset_right = 64.0
-mouse_filter = 2
+[node name="Pattern" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Paint tool"
+texture_normal = ExtResource("6_y4yjw")
+texture_pressed = ExtResource("6_y4yjw")
+texture_hover = ExtResource("6_y4yjw")
+texture_disabled = ExtResource("6_y4yjw")
+texture_focused = ExtResource("6_y4yjw")
 
-[node name="Brushparameters" parent="Submenus" node_paths=PackedStringArray("linked") instance=ExtResource("5_ibotj")]
-layout_mode = 0
-offset_bottom = 64.0
-linked = NodePath("../../Panel/VBoxContainer/Paint")
+[node name="SideMenu" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(16, 64)
+offset_left = 1264.0
+offset_top = 328.0
+offset_right = 1280.0
+offset_bottom = 392.0
+
+[node name="Label" type="Label" parent="SideMenu"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "<"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="SideMenu"]
+wait_time = 3.0
+one_shot = true
+
+[node name="Submenus" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(256, 720)
+offset_left = 1280.0
+offset_right = 1536.0
+offset_bottom = 720.0
+mouse_filter = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Submenus"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Brushparameters" parent="Submenus/ScrollContainer" instance=ExtResource("5_ibotj")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Patternparameters" parent="Submenus/ScrollContainer" instance=ExtResource("8_waa4j")]
+layout_mode = 2
 
 [node name="Popup" type="PanelContainer" parent="."]
 visible = false

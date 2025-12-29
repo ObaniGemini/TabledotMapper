@@ -1,6 +1,6 @@
-extends SubMenu
+extends VBoxContainer
 
-const BRUSHES_PATHES := ["res://brushes"]
+const BRUSHES_PATHES := ["res://Data/brushes"]
 
 signal update_color(c: Color)
 signal update_size(s: int)
@@ -21,24 +21,24 @@ func _ready():
 			# will have to fix in future
 			if file.get_extension() == "png":
 				print(path + "/" + file)
-				brushes.append(load(path + "/" + file))
+				brushes.append(path + "/" + file)
 				var im := Image.new()
-				im.copy_from(brushes.back().get_image())
+				im.copy_from(load(brushes.back()).get_image())
 				im.resize(64, 64)
-				$HBoxContainer/Brush.add_icon_item(ImageTexture.create_from_image(im), "")
+				$Brush.add_icon_item(ImageTexture.create_from_image(im), "")
 	
-	$HBoxContainer/Color.color_changed.connect(_update_color)
-	$HBoxContainer/Size.value_changed.connect(_update_size)
-	$HBoxContainer/Brush.item_selected.connect(_update_brush)
+	$Color.color_changed.connect(_update_color)
+	$Size/Slider.value_changed.connect(_update_size)
+	$Brush.item_selected.connect(_update_brush)
 
 func color() -> Color:
-	return $HBoxContainer/Color.color
+	return $Color.color
 
 func size() -> int:
-	return int($HBoxContainer/Size.value)
+	return int($Size/Slider.value)
 
 func brush() -> CompressedTexture2D:
-	return brushes[$HBoxContainer/Brush.get_selected_id()]
+	return load(brushes[$Brush.get_selected_id()])
 
 func _update_color(c: Color):
 	update_color.emit(c)
@@ -47,7 +47,7 @@ func _update_size(v: float):
 	update_size.emit(int(v))
 
 func _update_brush(id: int):
-	update_brush.emit(brushes[id])
+	update_brush.emit(load(brushes[id]))
 
 func set_color(c: Color):
-	$HBoxContainer/Color.color = c
+	$Color.color = c

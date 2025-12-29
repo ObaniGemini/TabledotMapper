@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://casir5ghic12r"]
+
+[ext_resource type="Texture2D" uid="uid://x63bjf41a3b6" path="res://Data/pattern/par13.jpg" id="1_6c1nw"]
+[ext_resource type="Script" uid="uid://dx7htim6pjttg" path="res://scenes/pattern.gd" id="1_p404m"]
+[ext_resource type="Texture2D" uid="uid://80pvpgatuixm" path="res://Data/square.png" id="2_p404m"]
+
+[sub_resource type="Shader" id="Shader_15w7l"]
+code = "shader_type canvas_item;
+
+uniform sampler2D tex : repeat_enable;
+uniform float tex_size : hint_range(1.0, 20.0);
+uniform float tex_rotation : hint_range(-3.14159, 3.14159);
+uniform vec2 tex_offset;
+
+
+uniform float brush_size : hint_range(1.0, 1024.0);
+uniform float brush_roughness : hint_range(0.0, 1.0);
+uniform vec2 brush_pos;
+uniform vec4 brush_color : source_color;
+
+void fragment() {
+	float xDiff = SCREEN_UV.x - brush_pos.x;
+	float yDiff = SCREEN_UV.y - brush_pos.y;
+	float brush_radius = brush_size * SCREEN_PIXEL_SIZE.x * 0.5;
+	float dist_to_center = xDiff * xDiff + yDiff * yDiff;
+
+	if (dist_to_center < (brush_radius * brush_radius)) {
+		vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
+		uv.y *= -1.0;
+
+		float angle = atan(uv.y, uv.x);
+		float radius = length(uv);
+		angle += tex_rotation;
+		vec2 shifted = radius * vec2(cos(angle), sin(angle));
+
+		COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
+
+		if (brush_roughness < 1.0) {
+			float x = sqrt(dist_to_center)/brush_radius;
+			float d = clamp(1.0 + (brush_roughness - x)/(1.0 - brush_roughness), 0.0, 1.0);
+			COLOR.a *= d;
+			COLOR.rgb /= d;
+		}
+	} else {
+		COLOR.a = 0.0;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k4n84"]
+shader = SubResource("Shader_15w7l")
+shader_parameter/tex = ExtResource("1_6c1nw")
+shader_parameter/tex_size = 1.0
+shader_parameter/tex_rotation = -3.1415901184082
+shader_parameter/tex_offset = Vector2(0, 0)
+shader_parameter/brush_size = 1024.0
+shader_parameter/brush_roughness = 0.50000002375
+shader_parameter/brush_pos = Vector2(0.5, 0.5)
+shader_parameter/brush_color = Color(1, 1, 1, 1)
+
+[node name="PatternViewport" type="SubViewport"]
+transparent_bg = true
+handle_input_locally = false
+oversampling = false
+size = Vector2i(4096, 4096)
+script = ExtResource("1_p404m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_k4n84")
+scale = Vector2(32000, 32000)
+texture = ExtResource("2_p404m")

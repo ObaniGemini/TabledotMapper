@@ -42,7 +42,7 @@ var current_props := {}
 
 
 
-var HISTORY_SIZE := 10
+var HISTORY_SIZE := 20
 var log := []
 var index := -1
 
