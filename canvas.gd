@@ -108,7 +108,7 @@ func paint(pos: Vector2):
 				#c.a = minf(pattern.color.a, c.a + im2.get_pixelv(canvas_pos).a)
 				#pattern_canvas.set_pixelv(canvas_pos, c)
 		
-		TabledotImage.add_only_alpha(pattern_canvas, pattern.get_pattern(), canvas_rect, pattern.color.a)
+		TabledotImage.add_only_alpha(pattern_canvas, pattern.get_pattern(), canvas_rect)
 		pattern_blit()
 	else:
 		canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)

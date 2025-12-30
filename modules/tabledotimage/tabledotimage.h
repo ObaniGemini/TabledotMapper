@@ -13,7 +13,7 @@ protected:
 
 public:
 	static void copy_no_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src);
-	static void add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect, float max_alpha);
+	static void add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect);
 };
 
 #endif // TABLEDOTIMAGE_H

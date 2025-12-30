@@ -26,7 +26,7 @@ void TabledotImage::copy_no_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_s
 	}
 }
 
-void TabledotImage::add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect, float max_alpha) {
+void TabledotImage::add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect) {
 	ERR_FAIL_COND_MSG(p_src.is_null(), "Cannot blit_rect an image: invalid src Image object.");
 	ERR_FAIL_COND_MSG(p_dst.is_null(), "Cannot blit_rect an image: invalid dst Image object.");
 	ERR_FAIL_COND(p_dst->get_width() != p_src->get_width() || p_dst->get_height() != p_src->get_height());
@@ -42,17 +42,17 @@ void TabledotImage::add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_
 	uint64_t end_y = p_src_rect.position.y + p_src_rect.size.y;
 	uint64_t width = p_dst->get_width();
 
-	uint16_t real_max_alpha = CLAMP(max_alpha * 255.0, 0, 255);
-
 	for (uint64_t y = p_src_rect.position.y; y < end_y; y++) {
 		for (uint64_t x = p_src_rect.position.x; x < end_x; x++) {
 			uint64_t pos = (y * width + x) * pixel_size + 3;
-			dst_ptr[pos] = uint8_t(MIN(real_max_alpha, uint16_t(dst_ptr[pos]) + uint16_t(src_ptr[pos])));
+			uint16_t dst_px = dst_ptr[pos];
+			uint16_t src_px = src_ptr[pos];
+			dst_ptr[pos] = uint8_t(MIN(MAX(dst_px, src_px), src_px + dst_px));
 		}
 	}
 }
 
 void TabledotImage::_bind_methods() {
 	ClassDB::bind_static_method("TabledotImage", D_METHOD("copy_no_alpha", "dst", "src"), &TabledotImage::copy_no_alpha);
-	ClassDB::bind_static_method("TabledotImage", D_METHOD("add_only_alpha", "dst", "src", "src_rect", "max_alpha"), &TabledotImage::add_only_alpha);
+	ClassDB::bind_static_method("TabledotImage", D_METHOD("add_only_alpha", "dst", "src", "src_rect"), &TabledotImage::add_only_alpha);
 }
