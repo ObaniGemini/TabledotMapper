@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://casir5ghic12r"]
+[gd_scene load_steps=10 format=3 uid="uid://casir5ghic12r"]
 
 [ext_resource type="Texture2D" uid="uid://x63bjf41a3b6" path="res://Data/pattern/par13.jpg" id="1_6c1nw"]
 [ext_resource type="Script" uid="uid://dx7htim6pjttg" path="res://scenes/pattern.gd" id="1_p404m"]
@@ -24,25 +24,23 @@ void fragment() {
 	float brush_radius = brush_size * SCREEN_PIXEL_SIZE.x * 0.5;
 	float dist_to_center = xDiff * xDiff + yDiff * yDiff;
 
-	if (dist_to_center < (brush_radius * brush_radius)) {
-		vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
-		uv.y *= -1.0;
+	vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
+	uv.y *= -1.0;
 
-		float angle = atan(uv.y, uv.x);
-		float radius = length(uv);
-		angle += tex_rotation;
-		vec2 shifted = radius * vec2(cos(angle), sin(angle));
+	float angle = atan(uv.y, uv.x);
+	float radius = length(uv);
+	angle += tex_rotation;
+	vec2 shifted = radius * vec2(cos(angle), sin(angle));
 
-		COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
+	COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
 
-		if (brush_roughness < 1.0) {
-			float x = sqrt(dist_to_center)/brush_radius;
-			float d = clamp(1.0 + (brush_roughness - x)/(1.0 - brush_roughness), 0.0, 1.0);
-			COLOR.a *= d;
-			COLOR.rgb /= d;
-		}
-	} else {
+	if (dist_to_center >= (brush_radius * brush_radius)) {
 		COLOR.a = 0.0;
+	} else if (brush_roughness < 1.0) {
+		float x = sqrt(dist_to_center)/brush_radius;
+		float d = clamp(1.0 + (brush_roughness - x)/(1.0 - brush_roughness), 0.0, 1.0);
+		COLOR.a *= d;
+		//COLOR.rgb /= d;
 	}
 }
 "
@@ -58,14 +56,68 @@ shader_parameter/brush_roughness = 0.50000002375
 shader_parameter/brush_pos = Vector2(0.5, 0.5)
 shader_parameter/brush_color = Color(1, 1, 1, 1)
 
-[node name="PatternViewport" type="SubViewport"]
-transparent_bg = true
-handle_input_locally = false
-oversampling = false
-size = Vector2i(4096, 4096)
+[sub_resource type="Shader" id="Shader_p404m"]
+code = "shader_type canvas_item;
+
+uniform sampler2D tex : repeat_enable;
+uniform float tex_size : hint_range(1.0, 20.0);
+uniform float tex_rotation : hint_range(-3.14159, 3.14159);
+uniform vec2 tex_offset;
+uniform vec4 brush_color : source_color;
+
+void fragment() {
+	vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
+	uv.y *= -1.0;
+
+	float angle = atan(uv.y, uv.x);
+	float radius = length(uv);
+	angle += tex_rotation;
+	vec2 shifted = radius * vec2(cos(angle), sin(angle));
+
+	COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
+	COLOR.a = 1.0;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w8fan"]
+shader = SubResource("Shader_p404m")
+shader_parameter/tex_size = 0.0
+shader_parameter/tex_rotation = 0.0
+shader_parameter/tex_offset = Vector2(0, 0)
+shader_parameter/brush_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_p404m"]
+viewport_path = NodePath("PatternViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pc74k"]
+viewport_path = NodePath("FullPattern")
+
+[node name="PatternViewport" type="Node2D"]
 script = ExtResource("1_p404m")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PatternViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+
+[node name="Sprite2D" type="Sprite2D" parent="PatternViewport"]
 material = SubResource("ShaderMaterial_k4n84")
 scale = Vector2(32000, 32000)
 texture = ExtResource("2_p404m")
+
+[node name="FullPattern" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+
+[node name="Sprite2D" type="Sprite2D" parent="FullPattern"]
+material = SubResource("ShaderMaterial_w8fan")
+scale = Vector2(32000, 32000)
+texture = ExtResource("2_p404m")
+
+[node name="Pattern" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_p404m")
+
+[node name="Pattern2" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+texture = SubResource("ViewportTexture_pc74k")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://caem05fuym3pk"]
+[gd_scene load_steps=6 format=3 uid="uid://caem05fuym3pk"]
 
 [ext_resource type="Script" uid="uid://yi5ttqv6yjdw" path="res://canvas.gd" id="1_75aqd"]
 [ext_resource type="Script" uid="uid://bq6ay37px25nx" path="res://history.gd" id="2_15w7l"]
@@ -7,9 +7,6 @@
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_75aqd"]
 viewport_path = NodePath("SubViewport")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_15w7l"]
-viewport_path = NodePath("PatternViewport")
 
 [node name="Canvas" type="Node2D"]
 script = ExtResource("1_75aqd")
@@ -21,16 +18,16 @@ script = ExtResource("2_15w7l")
 handle_input_locally = false
 oversampling = false
 
-[node name="Sprite2D" type="Sprite2D" parent="SubViewport"]
+[node name="Canvas" type="Sprite2D" parent="SubViewport"]
 centered = false
 
-[node name="PatternViewport" parent="." instance=ExtResource("3_k4n84")]
+[node name="PatternCanvas" type="Sprite2D" parent="SubViewport"]
+centered = false
 
 [node name="Viewport" type="Sprite2D" parent="."]
 texture = SubResource("ViewportTexture_75aqd")
 
-[node name="Pattern" type="Sprite2D" parent="."]
-texture = SubResource("ViewportTexture_15w7l")
+[node name="Pattern" parent="." instance=ExtResource("3_k4n84")]
 
 [node name="Brush" parent="." instance=ExtResource("2_pfdkn")]
 position = Vector2(-1, 0)

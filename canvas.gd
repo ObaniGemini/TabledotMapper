@@ -4,22 +4,24 @@ var width := 1
 var height := 1
 
 @onready var canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
+@onready var pattern_canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
 @onready var texture := ImageTexture.create_from_image(canvas)
+@onready var pattern_texture := ImageTexture.create_from_image(pattern_canvas)
 @onready var viewport := $SubViewport
 @onready var brush := $Brush
-@onready var pattern := $PatternViewport
+@onready var pattern := $Pattern
 
 func _ready():
 	print("Generating map of " + str(width) + "x" + str(height))
 	$SubViewport.size.x = width
 	$SubViewport.size.y = height
-	$PatternViewport.size.x = width
-	$PatternViewport.size.y = height
+	pattern.set_size(width, height)
 	
-	$PatternViewport/Sprite2D.scale = Vector2(30000.0, 30000.0)
-	$SubViewport/Sprite2D.texture = texture
+	$SubViewport/Canvas.texture = texture
+	$SubViewport/PatternCanvas.texture = pattern_texture
 	
 	canvas.fill(Color(1, 1, 1))
+	pattern_canvas.fill(Color(0, 0, 0, 0))
 	blit()
 	
 	$Camera2D.zoom = Vector2(1024.0, 1024.0) / Vector2(width, height).length()
@@ -61,6 +63,8 @@ func history_changed(type: History.Type, state):
 func blit():
 	texture.update(canvas)
 
+func pattern_blit():
+	pattern_texture.update(pattern_canvas)
 
 
 var canvas_updated := false
@@ -76,22 +80,41 @@ func paint(pos: Vector2):
 	var canvas_rect := base_rect
 
 	# clamp
-	canvas_rect.size += Vector2i(mini(0, canvas_rect.position.x), mini(0, canvas_rect.position.y))
-	canvas_rect.position = Vector2i(maxi(0, canvas_rect.position.x), maxi(0, canvas_rect.position.y))
-	canvas_rect.size -= Vector2i(maxi(width, canvas_rect.position.x + canvas_rect.size.x), maxi(height, canvas_rect.position.y + canvas_rect.size.y)) - Vector2i(width, height)
-	canvas_rect.size = Vector2i(maxi(0, canvas_rect.size.x), maxi(0, canvas_rect.size.y))
+	canvas_rect.size += Vector2i(mini(0, canvas_rect.position.x), mini(0, canvas_rect.position.y)) # reduce size when position is negative
+	canvas_rect.position = Vector2i(maxi(0, canvas_rect.position.x), maxi(0, canvas_rect.position.y)) # clamp position
+	canvas_rect.size -= Vector2i(maxi(width, canvas_rect.position.x + canvas_rect.size.x), maxi(height, canvas_rect.position.y + canvas_rect.size.y)) - Vector2i(width, height) # reduce size when pos + size exceeds total size
+	canvas_rect.size = Vector2i(maxi(0, canvas_rect.size.x), maxi(0, canvas_rect.size.y)) #clamp size
 	
 	var brush_rect := Rect2i(canvas_rect.position.x - base_rect.position.x, canvas_rect.position.y - base_rect.position.y, canvas_rect.size.x, canvas_rect.size.y)
 	if canvas_rect.size.x == 0 or canvas_rect.size.y == 0:
 		return
 	
 	
-	canvas_updated = true
 	if paint_mode:
-		canvas.blend_rect(pattern.get_texture().get_image(), canvas_rect, canvas_rect.position)
+		if !canvas_updated:
+			##var im : Image = pattern.get_full_pattern()
+			##for x in width:
+				##for y in height:
+					##var c := im.get_pixel(x, y)
+					##c.a = 0.0
+					##pattern_canvas.set_pixel(x, y, c)
+			TabledotImage.copy_no_alpha(pattern_canvas, pattern.get_full_pattern())
+		
+		#var im2 : Image = pattern.get_pattern()
+		#for x in canvas_rect.size.x:
+			#for y in canvas_rect.size.y:
+				#var canvas_pos := canvas_rect.position + Vector2i(x, y)
+				#var c := pattern_canvas.get_pixelv(canvas_pos)
+				#c.a = minf(pattern.color.a, c.a + im2.get_pixelv(canvas_pos).a)
+				#pattern_canvas.set_pixelv(canvas_pos, c)
+		
+		TabledotImage.add_only_alpha(pattern_canvas, pattern.get_pattern(), canvas_rect, pattern.color.a)
+		pattern_blit()
 	else:
 		canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
-	blit()
+		blit()
+	
+	canvas_updated = true
 
 
 
@@ -137,6 +160,11 @@ func _unhandled_input(event: InputEvent):
 				paint(event.position)
 			else:
 				if canvas_updated:
+					if paint_mode:
+						canvas.blend_rect(pattern_canvas, Rect2i(0, 0, width, height), Vector2())
+						pattern_canvas.fill(Color(0, 0, 0, 0))
+						pattern_blit()
+						blit()
 					$History.push(History.Type.Canvas, canvas)
 				canvas_updated = false
 

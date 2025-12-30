@@ -41,6 +41,14 @@ step = 2.0
 value = 256.0
 rounded = true
 
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Back"
+popup/item_0/id = 0
+popup/item_1/text = "Front"
+popup/item_1/id = 1
+
 [node name="HSeparator" type="HSeparator" parent="."]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 16)
