@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://djnig1eitlucs"]
+[gd_scene load_steps=3 format=3 uid="uid://djnig1eitlucs"]
 
 [ext_resource type="Script" uid="uid://cqf4xr8nov7md" path="res://submenus/brush.gd" id="1_3k8q0"]
+[ext_resource type="PackedScene" uid="uid://cqvvt8wd8xjep" path="res://scenes/ui/slider.tscn" id="2_20c3d"]
 
 [node name="Brushparameters" type="VBoxContainer"]
 custom_minimum_size = Vector2(256, 64)
@@ -22,32 +23,12 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="Size" type="HBoxContainer" parent="."]
+[node name="Size" parent="." instance=ExtResource("2_20c3d")]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="Size"]
-custom_minimum_size = Vector2(70, 0)
-layout_mode = 2
-text = "Size"
-
-[node name="Slider" type="HSlider" parent="Size"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 1
-min_value = 2.0
+min_value = 1.0
 max_value = 1024.0
-step = 2.0
-value = 256.0
+step = 1.0
 rounded = true
-
-[node name="OptionButton" type="OptionButton" parent="."]
-layout_mode = 2
-item_count = 2
-popup/item_0/text = "Back"
-popup/item_0/id = 0
-popup/item_1/text = "Front"
-popup/item_1/id = 1
 
 [node name="HSeparator" type="HSeparator" parent="."]
 self_modulate = Color(1, 1, 1, 0)

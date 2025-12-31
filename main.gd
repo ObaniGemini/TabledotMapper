@@ -3,6 +3,14 @@ extends Node2D
 const CANVAS_CLASS := preload("res://canvas.tscn")
 var canvas = null
 
+
+func _ready():
+	$UI.patternparameters.show_pattern.connect(show_pattern)
+
+func show_pattern(b: bool):
+	if canvas:
+		canvas.pattern.pattern_visible(b)
+
 func new_map(dim: Array):
 	if canvas:
 		canvas.queue_free()

@@ -1,6 +1,8 @@
 extends Node
 
 const DEFAULT_CONFIG := {
+	"history": 20,
+	
 	"brush_texture": "",
 	"brush_size": 128,
 	"brush_color": Color(0, 0, 0),

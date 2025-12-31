@@ -1,0 +1,94 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cuyn43phwng6o"]
+
+[ext_resource type="Texture2D" uid="uid://bup5o824ale7g" path="res://Data/empty.png" id="1_cqcnm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqcnm"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.56870025, 0.5157737, 0.4059973, 1)
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjbod"]
+content_margin_left = 11.0
+content_margin_top = 11.0
+content_margin_right = 11.0
+content_margin_bottom = 11.0
+bg_color = Color(0.1678049, 0.1447567, 0.10250083, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.41598022, 0.41598055, 0.41598028, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oci2t"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.099985994, 0.09998601, 0.099985965, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.13333334)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lkiy"]
+bg_color = Color(0.22, 0.20614, 0.1892, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v84ch"]
+bg_color = Color(0.47788018, 0.47788018, 0.47788, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.47843137, 0.47843137, 0.47843137, 1)
+border_blend = true
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1m12o"]
+bg_color = Color(0.25490198, 0.25490198, 0.25490198, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.25565886, 0.2556588, 0.2556586, 1)
+border_blend = true
+
+[resource]
+HSlider/constants/center_grabber = 0
+HSlider/constants/grabber_offset = 0
+HSlider/constants/tick_offset = 0
+HSlider/icons/grabber = ExtResource("1_cqcnm")
+HSlider/icons/grabber_disabled = ExtResource("1_cqcnm")
+HSlider/icons/grabber_highlight = ExtResource("1_cqcnm")
+HSlider/icons/tick = ExtResource("1_cqcnm")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_cqcnm")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_cqcnm")
+HSlider/styles/slider = SubResource("StyleBoxFlat_gjbod")
+LineEdit/styles/focus = SubResource("StyleBoxFlat_oci2t")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_oci2t")
+LineEdit/styles/read_only = SubResource("StyleBoxFlat_oci2t")
+Panel/styles/panel = SubResource("StyleBoxFlat_1lkiy")
+SpinBox/constants/buttons_width = 0
+SpinBox/constants/field_and_buttons_separation = 0
+SpinBox/icons/down = ExtResource("1_cqcnm")
+SpinBox/icons/down_disabled = ExtResource("1_cqcnm")
+SpinBox/icons/down_hover = ExtResource("1_cqcnm")
+SpinBox/icons/down_pressed = ExtResource("1_cqcnm")
+SpinBox/icons/up = ExtResource("1_cqcnm")
+SpinBox/icons/up_disabled = ExtResource("1_cqcnm")
+SpinBox/icons/up_hover = ExtResource("1_cqcnm")
+SpinBox/icons/up_pressed = ExtResource("1_cqcnm")
+SpinBox/icons/updown = ExtResource("1_cqcnm")
+TextEdit/constants/line_spacing = 0
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_v84ch")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_v84ch")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_v84ch")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_1m12o")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_1m12o")

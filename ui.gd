@@ -48,7 +48,6 @@ func error(message: String):
 	print(message)
 
 @onready var side_menu_start_pos : float = $SideMenu.position.x
-@onready var sub_menu_start_pos : float = 1280.0 - $Submenus.size.x
 var submenu_open_tween : Tween
 var opening := false
 func open_side():
@@ -63,7 +62,7 @@ func open_side():
 	
 	submenu_open_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE).set_parallel(true)
 	submenu_open_tween.tween_property($SideMenu, "position:x", 1280.0, 0.5)
-	submenu_open_tween.tween_property($Submenus, "position:x", sub_menu_start_pos, 0.5)
+	submenu_open_tween.tween_property($Submenus, "position:x", 1280.0 - $Submenus.size.x, 0.5)
 
 
 func close_side():

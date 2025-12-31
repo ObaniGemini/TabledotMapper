@@ -135,6 +135,9 @@ func update_mouse_pos(p: Vector2):
 const MOUSE_OFF := Vector2(-1, -1)
 var mouse_previous := MOUSE_OFF
 func _unhandled_input(event: InputEvent):
+	if !get_parent().can_edit():
+		return
+	
 	if event.is_action_pressed("sample_color"):
 		sample_color(mouse_to_viewport(event.position))
 	elif event is InputEventMouseMotion:

@@ -4,6 +4,8 @@ const BRUSHES_PATHES := ["res://Data/pattern"]
 
 var brushes := []
 
+signal show_pattern(b: bool)
+
 func _ready():
 	for path in BRUSHES_PATHES:
 		var dir := DirAccess.open(path)
@@ -24,22 +26,25 @@ func _ready():
 				$Pattern.add_icon_item(ImageTexture.create_from_image(im), "")
 	
 	$Pattern.selected = brushes.find(config.GET("pattern_texture"))
-	$PatternSize/Slider.value = config.GET("pattern_size")
-	$Rotation/Slider.value = config.GET("pattern_rotation")
-	$Offset/X.value = config.GET("pattern_offset").x
-	$Offset/Y.value = config.GET("pattern_offset").y
-	$BrushSize/Slider.value = config.GET("pattern_brush_size")
-	$BrushRoughness/Slider.value = config.GET("pattern_brush_roughness")
+	$PatternSize.update_value(config.GET("pattern_size"))
+	$Rotation.update_value(config.GET("pattern_rotation"))
+	$Offset/HBoxContainer/X.update_value(config.GET("pattern_offset").x)
+	$Offset/HBoxContainer/Y.update_value(config.GET("pattern_offset").y)
+	$BrushSize.update_value(config.GET("pattern_brush_size"))
+	$Roughness.update_value(config.GET("pattern_brush_roughness"))
 	$Color.color = config.GET("pattern_brush_color")
 	
 	$Pattern.item_selected.connect(_update_pattern)
-	$PatternSize/Slider.value_changed.connect(_update_pattern_size)
-	$Rotation/Slider.value_changed.connect(_update_pattern_rotation)
-	$Offset/X.value_changed.connect(_update_pattern_offset.bind(true))
-	$Offset/Y.value_changed.connect(_update_pattern_offset.bind(false))
-	$BrushSize/Slider.value_changed.connect(_update_brush_size)
-	$BrushRoughness/Slider.value_changed.connect(_update_brush_roughness)
+	$PatternSize.value_changed.connect(_update_pattern_size)
+	$Rotation.value_changed.connect(_update_pattern_rotation)
+	$Offset/HBoxContainer/X.value_changed.connect(_update_pattern_offset.bind(true))
+	$Offset/HBoxContainer/Y.value_changed.connect(_update_pattern_offset.bind(false))
+	$BrushSize.value_changed.connect(_update_brush_size)
+	$Roughness.value_changed.connect(_update_brush_roughness)
 	$Color.color_changed.connect(_update_brush_color)
+	
+	mouse_entered.connect(show_pattern.emit.bind(true))
+	mouse_exited.connect(show_pattern.emit.bind(false))
 
 signal update_pattern(b: CompressedTexture2D)
 signal update_pattern_size(s: float)
@@ -53,19 +58,19 @@ func pattern() -> CompressedTexture2D:
 	return load(brushes[$Pattern.get_selected_id()])
 
 func pattern_size() -> float:
-	return $PatternSize/Slider.value
+	return $PatternSize.get_value()
 
 func pattern_rotation() -> float:
-	return $Rotation/Slider.value
+	return $Rotation.get_value()
 
 func pattern_offset() -> Vector2:
-	return Vector2($Offset/X.value, $Offset/Y.value)
+	return Vector2($Offset/HBoxContainer/X.get_value(), $Offset/HBoxContainer/Y.get_value())
 
 func brush_size() -> float:
-	return $BrushSize/Slider.value
+	return $BrushSize.get_value()
 
 func brush_roughness() -> float:
-	return $BrushRoughness/Slider.value
+	return $Roughness.get_value()
 
 func brush_color() -> Color:
 	return $Color.color
@@ -85,7 +90,7 @@ func _update_pattern_rotation(r: float):
 	update_pattern_rotation.emit(r)
 
 func _update_pattern_offset(v: float, x : bool):
-	var o := Vector2(v, $Offset/Y.value) if x else Vector2($Offset/X.value, v)
+	var o := Vector2(v, $Offset/HBoxContainer/Y.get_value()) if x else Vector2($Offset/HBoxContainer/X.get_value(), v)
 	config.SET("pattern_offset", o)
 	update_pattern_offset.emit(o)
 

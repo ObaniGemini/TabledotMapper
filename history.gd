@@ -71,7 +71,7 @@ func push(type: Type, v):
 		log.resize(index + 1)
 	
 	log.append(make_log(type, v))
-	if log.size() > HISTORY_SIZE:
+	while log.size() > HISTORY_SIZE:
 		log.pop_front()
 	
 	index = log.size() - 1

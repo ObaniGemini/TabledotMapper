@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcr83y22mm7cp"]
+[gd_scene load_steps=10 format=3 uid="uid://bcr83y22mm7cp"]
 
 [ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://Data/menu/new.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://tuplu0io8054" path="res://ui.gd" id="1_m6e0p"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://djnig1eitlucs" path="res://submenus/brush.tscn" id="5_ibotj"]
 [ext_resource type="Texture2D" uid="uid://bx526f3f358fx" path="res://Data/menu/pattern.png" id="6_y4yjw"]
 [ext_resource type="PackedScene" uid="uid://g03wsqigjovs" path="res://submenus/pattern.tscn" id="8_waa4j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_waa4j"]
+font_size = 32
 
 [node name="UI" type="CanvasLayer"]
 layer = 128
@@ -67,8 +70,8 @@ texture_disabled = ExtResource("6_y4yjw")
 texture_focused = ExtResource("6_y4yjw")
 
 [node name="SideMenu" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(16, 64)
-offset_left = 1264.0
+custom_minimum_size = Vector2(32, 64)
+offset_left = 1248.0
 offset_top = 328.0
 offset_right = 1280.0
 offset_bottom = 392.0
@@ -77,6 +80,7 @@ offset_bottom = 392.0
 layout_mode = 2
 size_flags_vertical = 1
 text = "<"
+label_settings = SubResource("LabelSettings_waa4j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -87,7 +91,7 @@ one_shot = true
 [node name="Submenus" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(256, 720)
 offset_left = 1280.0
-offset_right = 1536.0
+offset_right = 1586.0
 offset_bottom = 720.0
 mouse_filter = 1
 
