@@ -37,8 +37,7 @@ border_color = Color(0.8, 0.8, 0.8, 0.13333334)
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lkiy"]
-bg_color = Color(0.22, 0.20614, 0.1892, 1)
-corner_detail = 1
+bg_color = Color(0.13693824, 0.12860647, 0.114719145, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v84ch"]
 bg_color = Color(0.47788018, 0.47788018, 0.47788, 1)
@@ -75,6 +74,7 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_oci2t")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_oci2t")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_oci2t")
 Panel/styles/panel = SubResource("StyleBoxFlat_1lkiy")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_1lkiy")
 SpinBox/constants/buttons_width = 0
 SpinBox/constants/field_and_buttons_separation = 0
 SpinBox/icons/down = ExtResource("1_cqcnm")
