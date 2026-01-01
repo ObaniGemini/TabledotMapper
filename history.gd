@@ -47,14 +47,14 @@ var log := []
 var index := -1
 
 func init_canvas(width: int, height: int, base: Image):
-	current_canvas = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
+	current_canvas = Image.create_empty(width, height, false, Image.FORMAT_RGB8)
 	current_canvas.copy_from(base)
 
 
 func make_log(type: Type, v):
 	match type:
 		Type.Canvas:
-			var current := Image.create_empty(current_canvas.get_width(), current_canvas.get_height(), false, Image.FORMAT_RGBA8)
+			var current := Image.create_empty(current_canvas.get_width(), current_canvas.get_height(), false, Image.FORMAT_RGB8)
 			current.copy_from(v)
 			var previous : Image = current_canvas
 			current_canvas = current

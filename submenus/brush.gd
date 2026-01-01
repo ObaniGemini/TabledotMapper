@@ -41,8 +41,11 @@ func color() -> Color:
 func size() -> int:
 	return int($Size.get_value())
 
-func brush() -> CompressedTexture2D:
-	return load(brushes[$Brush.get_selected_id()])
+func _load_brush(id: int) -> Image:
+	return TabledotImage.make_luminance_image(load(brushes[id]).get_image())
+
+func brush() -> Image:
+	return _load_brush($Brush.get_selected_id())
 
 func _update_color(c: Color):
 	config.SET("brush_color", c)
@@ -54,7 +57,7 @@ func _update_size(v: float):
 
 func _update_brush(id: int):
 	config.SET("brush_texture", brushes[id])
-	update_brush.emit(load(brushes[id]))
+	update_brush.emit(_load_brush(id))
 
 func set_color(c: Color):
 	config.SET("brush_color", c)

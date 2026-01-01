@@ -17,9 +17,10 @@ layer = 128
 script = ExtResource("1_m6e0p")
 
 [node name="Panel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(64, 720)
+custom_minimum_size = Vector2(64, 960)
 offset_right = 64.0
 offset_bottom = 720.0
+scale = Vector2(0.75, 0.75)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
@@ -88,10 +89,11 @@ vertical_alignment = 1
 one_shot = true
 
 [node name="Submenus" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(256, 720)
+custom_minimum_size = Vector2(256, 960)
 offset_left = 1280.0
 offset_right = 1586.0
-offset_bottom = 720.0
+offset_bottom = 960.0
+scale = Vector2(0.75, 0.75)
 mouse_filter = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Submenus"]

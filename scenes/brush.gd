@@ -1,27 +1,20 @@
 extends Sprite2D
 
-var base_image : CompressedTexture2D
+var base_image : Image
 var image : Image = Image.new()
-
 var size := 1
-var color := Color(1, 1, 1)
 
 func blit():
 	texture.set_image(image)
 
 
-func update_brush(tex: CompressedTexture2D):
-	base_image = tex
-	update_properties(size, color)
+func update_brush(im: Image):
+	base_image = im
+	update_size(size)
 
-
-func update_properties(s: int, c: Color):
+func update_size(s: int):
 	size = s
-	color = c
 	
-	image.copy_from(base_image.get_image())
+	image.copy_from(base_image)
 	image.resize(size, size)
-	for x in image.get_width():
-		for y in image.get_height():
-			image.set_pixel(x, y, image.get_pixel(x, y) * color)
 	blit()

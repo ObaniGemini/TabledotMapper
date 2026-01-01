@@ -3,7 +3,7 @@ extends Node2D
 var width := 1
 var height := 1
 
-@onready var canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
+@onready var canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGB8)
 @onready var pattern_canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
 @onready var texture := ImageTexture.create_from_image(canvas)
 @onready var pattern_texture := ImageTexture.create_from_image(pattern_canvas)
@@ -29,7 +29,8 @@ func _ready():
 	max_zoom = goal_zoom * 0.5
 	
 	brush.update_brush(get_parent().get_brush_texture())
-	brush.update_properties(get_parent().get_brush_size(), get_parent().get_brush_color())
+	brush.update_size(get_parent().get_brush_size())
+	brush.modulate = get_parent().get_brush_color()
 	
 	pattern.set_pattern(get_parent().get_pattern_texture())
 	pattern.set_pattern_size(get_parent().get_pattern_size())
@@ -109,10 +110,10 @@ func paint(pos: Vector2):
 				#pattern_canvas.set_pixelv(canvas_pos, c)
 		
 		TabledotImage.add_only_alpha(pattern_canvas, pattern.get_pattern(), canvas_rect)
-		pattern_blit()
 	else:
-		canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
-		blit()
+		TabledotImage.blend_luminance_rect_to_rgba8(pattern_canvas, brush.image, brush_rect, canvas_rect.position, brush.modulate)
+		#canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
+	pattern_blit()
 	
 	canvas_updated = true
 
@@ -146,6 +147,8 @@ func _unhandled_input(event: InputEvent):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			if mouse_previous.x >= 0:
 				$Camera2D.position -= (event.position - mouse_previous) / $Camera2D.zoom
+				$Camera2D.position.x = clampf($Camera2D.position.x, -width * 0.5, width * 0.5)
+				$Camera2D.position.y = clampf($Camera2D.position.y, -height * 0.5, height * 0.5)
 			mouse_previous = event.position
 		else:
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -163,11 +166,10 @@ func _unhandled_input(event: InputEvent):
 				paint(event.position)
 			else:
 				if canvas_updated:
-					if paint_mode:
-						canvas.blend_rect(pattern_canvas, Rect2i(0, 0, width, height), Vector2())
-						pattern_canvas.fill(Color(0, 0, 0, 0))
-						pattern_blit()
-						blit()
+					TabledotImage.blend_rgba8_to_rgb8_clear(canvas, pattern_canvas)
+					pattern_blit()
+					blit()
+					#canvas.blend_rect(pattern_canvas, Rect2i(0, 0, width, height), Vector2())
 					$History.push(History.Type.Canvas, canvas)
 				canvas_updated = false
 

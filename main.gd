@@ -41,13 +41,13 @@ func can_edit() -> bool:
 
 func brush_color(c: Color):
 	$UI.brushparameters.set_color(c)
-	if canvas: canvas.brush.update_properties(canvas.brush.size, c)
+	if canvas: canvas.brush.modulate = c
 
 func brush_size(s: int):
-	if canvas: canvas.brush.update_properties(s, canvas.brush.color)
+	if canvas: canvas.brush.update_size(s)
 
-func brush_texture(t: CompressedTexture2D):
-	if canvas: canvas.brush.update_brush(t)
+func brush_texture(im: Image):
+	if canvas: canvas.brush.update_brush(im)
 
 
 

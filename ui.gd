@@ -62,7 +62,7 @@ func open_side():
 	
 	submenu_open_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE).set_parallel(true)
 	submenu_open_tween.tween_property($SideMenu, "position:x", 1280.0, 0.5)
-	submenu_open_tween.tween_property($Submenus, "position:x", 1280.0 - $Submenus.size.x, 0.5)
+	submenu_open_tween.tween_property($Submenus, "position:x", 1280.0 - $Submenus.size.x * $Submenus.scale.x, 0.5)
 
 
 func close_side():
