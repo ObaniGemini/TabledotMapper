@@ -48,9 +48,8 @@ func set_brush_roughness(r: float):
 
 func set_brush_color(c: Color):
 	color = c
-	brush.material.set_shader_parameter("brush_color", color)
-	full_pattern.material.set_shader_parameter("brush_color", color)
-
+	brush.modulate = color
+	full_pattern.modulate = color
 
 func pattern_visible(b: bool):
 	$Pattern2.self_modulate.a = 0.5 if b else 0.0

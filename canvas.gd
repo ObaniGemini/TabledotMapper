@@ -4,9 +4,9 @@ var width := 1
 var height := 1
 
 @onready var canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGB8)
-@onready var pattern_canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
+@onready var tmp_canvas := Image.create_empty(width, height, false, Image.Format.FORMAT_RGBA8)
 @onready var texture := ImageTexture.create_from_image(canvas)
-@onready var pattern_texture := ImageTexture.create_from_image(pattern_canvas)
+@onready var tmp_texture := ImageTexture.create_from_image(tmp_canvas)
 @onready var viewport := $SubViewport
 @onready var brush := $Brush
 @onready var pattern := $Pattern
@@ -18,10 +18,10 @@ func _ready():
 	pattern.set_size(width, height)
 	
 	$SubViewport/Canvas.texture = texture
-	$SubViewport/PatternCanvas.texture = pattern_texture
+	$SubViewport/PatternCanvas.texture = tmp_texture
 	
 	canvas.fill(Color(1, 1, 1))
-	pattern_canvas.fill(Color(0, 0, 0, 0))
+	tmp_canvas.fill(Color(0, 0, 0, 0))
 	blit()
 	
 	$Camera2D.zoom = Vector2(1024.0, 1024.0) / Vector2(width, height).length()
@@ -65,7 +65,7 @@ func blit():
 	texture.update(canvas)
 
 func pattern_blit():
-	pattern_texture.update(pattern_canvas)
+	tmp_texture.update(tmp_canvas)
 
 
 var canvas_updated := false
@@ -99,7 +99,7 @@ func paint(pos: Vector2):
 					##var c := im.get_pixel(x, y)
 					##c.a = 0.0
 					##pattern_canvas.set_pixel(x, y, c)
-			TabledotImage.copy_no_alpha(pattern_canvas, pattern.get_full_pattern())
+			TabledotImage.copy_no_alpha(tmp_canvas, pattern.get_full_pattern())
 		
 		#var im2 : Image = pattern.get_pattern()
 		#for x in canvas_rect.size.x:
@@ -109,9 +109,9 @@ func paint(pos: Vector2):
 				#c.a = minf(pattern.color.a, c.a + im2.get_pixelv(canvas_pos).a)
 				#pattern_canvas.set_pixelv(canvas_pos, c)
 		
-		TabledotImage.add_only_alpha(pattern_canvas, pattern.get_pattern(), canvas_rect)
+		TabledotImage.add_only_alpha(tmp_canvas, pattern.get_pattern(), canvas_rect)
 	else:
-		TabledotImage.blend_luminance_rect_to_rgba8(pattern_canvas, brush.image, brush_rect, canvas_rect.position, brush.modulate)
+		TabledotImage.blend_luminance_rect_to_rgba8(tmp_canvas, brush.image, brush_rect, canvas_rect.position, brush.modulate)
 		#canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
 	pattern_blit()
 	
@@ -166,7 +166,7 @@ func _unhandled_input(event: InputEvent):
 				paint(event.position)
 			else:
 				if canvas_updated:
-					TabledotImage.blend_rgba8_to_rgb8_clear(canvas, pattern_canvas)
+					TabledotImage.blend_rgba8_to_rgb8_clear(canvas, tmp_canvas)
 					pattern_blit()
 					blit()
 					#canvas.blend_rect(pattern_canvas, Rect2i(0, 0, width, height), Vector2())

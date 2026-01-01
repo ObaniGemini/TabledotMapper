@@ -16,15 +16,16 @@ uniform vec2 tex_offset;
 uniform float brush_size : hint_range(1.0, 1024.0);
 uniform float brush_roughness : hint_range(0.0, 1.0);
 uniform vec2 brush_pos;
-uniform vec4 brush_color : source_color;
 
 void fragment() {
-	float xDiff = SCREEN_UV.x - brush_pos.x;
-	float yDiff = SCREEN_UV.y - brush_pos.y;
-	float brush_radius = brush_size * SCREEN_PIXEL_SIZE.x * 0.5;
+	float max_pixel = min(SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y);
+	
+	float xDiff = (SCREEN_UV.x - brush_pos.x) * max_pixel / SCREEN_PIXEL_SIZE.x;
+	float yDiff = (SCREEN_UV.y - brush_pos.y) * max_pixel / SCREEN_PIXEL_SIZE.y;
+	float brush_radius = brush_size * 0.5 * max_pixel;
 	float dist_to_center = xDiff * xDiff + yDiff * yDiff;
 
-	vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
+	vec2 uv = (SCREEN_UV - vec2(0.5, 0.5)) * max_pixel / SCREEN_PIXEL_SIZE;
 	uv.y *= -1.0;
 
 	float angle = atan(uv.y, uv.x);
@@ -32,7 +33,7 @@ void fragment() {
 	angle += tex_rotation;
 	vec2 shifted = radius * vec2(cos(angle), sin(angle));
 
-	COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
+	COLOR.rgb *= texture(tex, shifted * tex_size + tex_offset).rgb;
 
 	if (dist_to_center >= (brush_radius * brush_radius)) {
 		COLOR.a = 0.0;
@@ -54,7 +55,6 @@ shader_parameter/tex_offset = Vector2(0, 0)
 shader_parameter/brush_size = 1024.0
 shader_parameter/brush_roughness = 0.50000002375
 shader_parameter/brush_pos = Vector2(0.5, 0.5)
-shader_parameter/brush_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Shader" id="Shader_p404m"]
 code = "shader_type canvas_item;
@@ -63,10 +63,9 @@ uniform sampler2D tex : repeat_enable;
 uniform float tex_size : hint_range(1.0, 20.0);
 uniform float tex_rotation : hint_range(-3.14159, 3.14159);
 uniform vec2 tex_offset;
-uniform vec4 brush_color : source_color;
 
 void fragment() {
-	vec2 uv = SCREEN_UV - vec2(0.5, 0.5);
+	vec2 uv = (SCREEN_UV - vec2(0.5, 0.5)) * max(SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y) / SCREEN_PIXEL_SIZE;
 	uv.y *= -1.0;
 
 	float angle = atan(uv.y, uv.x);
@@ -74,7 +73,7 @@ void fragment() {
 	angle += tex_rotation;
 	vec2 shifted = radius * vec2(cos(angle), sin(angle));
 
-	COLOR = texture(tex, shifted * tex_size + tex_offset) * brush_color;
+	COLOR.rgb *= texture(tex, shifted * tex_size + tex_offset).rgb;
 	COLOR.a = 1.0;
 }
 "
@@ -84,7 +83,6 @@ shader = SubResource("Shader_p404m")
 shader_parameter/tex_size = 0.0
 shader_parameter/tex_rotation = 0.0
 shader_parameter/tex_offset = Vector2(0, 0)
-shader_parameter/brush_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_p404m"]
 viewport_path = NodePath("PatternViewport")
