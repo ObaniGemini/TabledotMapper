@@ -76,8 +76,8 @@ func paint(pos: Vector2):
 	var brush_size : int = int(pattern.brush_size) if paint_mode else brush.size
 	
 	var p := Vector2i(mouse_to_viewport(pos))
-	var off : int = brush_size / 2
-	var base_rect := Rect2i(p.x - off, p.y - off, brush_size, brush_size)
+	var radius : int = brush_size / 2
+	var base_rect := Rect2i(p.x - radius, p.y - radius, brush_size, brush_size)
 	var canvas_rect := base_rect
 
 	# clamp
@@ -92,14 +92,14 @@ func paint(pos: Vector2):
 	
 	
 	if paint_mode:
-		if !canvas_updated:
-			##var im : Image = pattern.get_full_pattern()
-			##for x in width:
-				##for y in height:
-					##var c := im.get_pixel(x, y)
-					##c.a = 0.0
-					##pattern_canvas.set_pixel(x, y, c)
-			TabledotImage.copy_no_alpha(tmp_canvas, pattern.get_full_pattern())
+		#if !canvas_updated:
+			###var im : Image = pattern.get_full_pattern()
+			###for x in width:
+				###for y in height:
+					###var c := im.get_pixel(x, y)
+					###c.a = 0.0
+					###pattern_canvas.set_pixel(x, y, c)
+			#TabledotImage.copy_no_alpha(tmp_canvas, pattern.get_full_pattern())
 		
 		#var im2 : Image = pattern.get_pattern()
 		#for x in canvas_rect.size.x:
@@ -109,7 +109,7 @@ func paint(pos: Vector2):
 				#c.a = minf(pattern.color.a, c.a + im2.get_pixelv(canvas_pos).a)
 				#pattern_canvas.set_pixelv(canvas_pos, c)
 		
-		TabledotImage.add_only_alpha(tmp_canvas, pattern.get_pattern(), canvas_rect)
+		TabledotImage.blend_circle(tmp_canvas, pattern.get_full_pattern(), canvas_rect, p, radius, pattern.roughness, pattern.color.a)
 	else:
 		TabledotImage.blend_luminance_rect_to_rgba8(tmp_canvas, brush.image, brush_rect, canvas_rect.position, brush.modulate)
 		#canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)

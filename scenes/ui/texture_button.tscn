@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1akk5exyup6l"]
+
+[ext_resource type="Script" uid="uid://deot4orov26jf" path="res://scenes/ui/texture_button.gd" id="1_bs7m5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lnrm2"]
+font_size = 8
+
+[node name="TextureButton" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_bs7m5")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "test"
+label_settings = SubResource("LabelSettings_lnrm2")
+horizontal_alignment = 1
+autowrap_mode = 1

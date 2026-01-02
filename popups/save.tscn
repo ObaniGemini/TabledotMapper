@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://s3hds6kfpyrt" path="res://popups/save.gd" id="1_cov5d"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="Save" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
 alignment = 1

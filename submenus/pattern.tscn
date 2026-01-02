@@ -18,7 +18,7 @@ text = "Pattern"
 label_settings = SubResource("LabelSettings_qnoq8")
 horizontal_alignment = 1
 
-[node name="Pattern" type="OptionButton" parent="."]
+[node name="Pattern" type="TextureButton" parent="."]
 layout_mode = 2
 mouse_filter = 1
 

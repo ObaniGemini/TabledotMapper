@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bcr83y22mm7cp"]
+[gd_scene load_steps=14 format=3 uid="uid://bcr83y22mm7cp"]
 
 [ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://Data/menu/new.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://tuplu0io8054" path="res://ui.gd" id="1_m6e0p"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://djnig1eitlucs" path="res://submenus/brush.tscn" id="5_ibotj"]
 [ext_resource type="Texture2D" uid="uid://bx526f3f358fx" path="res://Data/menu/pattern.png" id="6_y4yjw"]
 [ext_resource type="PackedScene" uid="uid://g03wsqigjovs" path="res://submenus/pattern.tscn" id="8_waa4j"]
+[ext_resource type="PackedScene" uid="uid://hocki3sk716a" path="res://popups/newmap.tscn" id="10_gs482"]
+[ext_resource type="PackedScene" uid="uid://cstxgpkcpcbla" path="res://popups/save.tscn" id="11_cxd00"]
+[ext_resource type="PackedScene" uid="uid://mulm3unw6d8b" path="res://popups/export.tscn" id="12_etlur"]
+[ext_resource type="PackedScene" uid="uid://drf1wwwgjpg7y" path="res://scenes/ui/texture_chooser.tscn" id="12_n5rqp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_waa4j"]
 font_size = 32
@@ -103,9 +107,11 @@ horizontal_scroll_mode = 0
 [node name="Brushparameters" parent="Submenus/ScrollContainer" instance=ExtResource("5_ibotj")]
 layout_mode = 2
 size_flags_horizontal = 3
+TEXTURE_CHOOSER = NodePath("../../../Popup/HBoxContainer/VBoxContainer/BrushChooser")
 
 [node name="Patternparameters" parent="Submenus/ScrollContainer" instance=ExtResource("8_waa4j")]
 layout_mode = 2
+TEXTURE_CHOOSER = NodePath("../../../Popup/HBoxContainer/VBoxContainer/PatternChooser")
 
 [node name="Popup" type="PanelContainer" parent="."]
 visible = false
@@ -121,6 +127,26 @@ alignment = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/HBoxContainer"]
 layout_mode = 2
 alignment = 1
+
+[node name="NewMap" parent="Popup/HBoxContainer/VBoxContainer" instance=ExtResource("10_gs482")]
+visible = false
+layout_mode = 2
+
+[node name="Save" parent="Popup/HBoxContainer/VBoxContainer" instance=ExtResource("11_cxd00")]
+visible = false
+layout_mode = 2
+
+[node name="Export" parent="Popup/HBoxContainer/VBoxContainer" instance=ExtResource("12_etlur")]
+visible = false
+layout_mode = 2
+
+[node name="BrushChooser" parent="Popup/HBoxContainer/VBoxContainer" instance=ExtResource("12_n5rqp")]
+visible = false
+layout_mode = 2
+
+[node name="PatternChooser" parent="Popup/HBoxContainer/VBoxContainer" instance=ExtResource("12_n5rqp")]
+visible = false
+layout_mode = 2
 
 [node name="Error" type="Label" parent="."]
 modulate = Color(1, 0, 0, 1)

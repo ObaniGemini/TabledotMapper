@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends TabledotPopup
 
 var values := []
 
@@ -10,8 +10,8 @@ func _ready():
 		$Button.add_item(str(values[i]) + "x" + str(values[i]))
 		p *= 2
 	
-	
 	_on_check_box_toggled($Button.button_pressed)
+	super()
 
 
 

@@ -73,7 +73,7 @@ void fragment() {
 	angle += tex_rotation;
 	vec2 shifted = radius * vec2(cos(angle), sin(angle));
 
-	COLOR.rgb *= texture(tex, shifted * tex_size + tex_offset).rgb;
+	COLOR *= texture(tex, shifted * tex_size + tex_offset);
 	COLOR.a = 1.0;
 }
 "

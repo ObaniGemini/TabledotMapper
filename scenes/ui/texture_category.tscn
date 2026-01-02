@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dygwigtqkj8by"]
+
+[ext_resource type="Script" uid="uid://bjug3hlqi0m0k" path="res://scenes/ui/texture_category.gd" id="1_rv4yo"]
+
+[node name="TextureCategory" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_rv4yo")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="."]
+layout_mode = 2

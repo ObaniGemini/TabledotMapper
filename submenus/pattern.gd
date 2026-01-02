@@ -1,31 +1,13 @@
 extends VBoxContainer
 
-const BRUSHES_PATHES := ["res://Data/pattern"]
-
-var brushes := []
+@export var TEXTURE_CHOOSER : NodePath
 
 signal show_pattern(b: bool)
 
+@onready var chooser := get_node(TEXTURE_CHOOSER)
+@onready var parent := get_node("../../../")
+
 func _ready():
-	for path in BRUSHES_PATHES:
-		var dir := DirAccess.open(path)
-		dir.include_hidden = false
-		dir.include_navigational = false
-		
-		for file in dir.get_files():
-			if file.get_extension().ends_with("import"):
-				continue
-			
-			# will have to fix in future
-			if file.get_extension() == "png" or file.get_extension() == "jpg":
-				print(path + "/" + file)
-				brushes.append(path + "/" + file)
-				var im := Image.new()
-				im.copy_from(load(brushes.back()).get_image())
-				im.resize(64, 64)
-				$Pattern.add_icon_item(ImageTexture.create_from_image(im), "")
-	
-	$Pattern.selected = brushes.find(config.GET("pattern_texture"))
 	$PatternSize.update_value(config.GET("pattern_size"))
 	$Rotation.update_value(config.GET("pattern_rotation"))
 	$Offset/HBoxContainer/X.update_value(config.GET("pattern_offset").x)
@@ -34,7 +16,7 @@ func _ready():
 	$Roughness.update_value(config.GET("pattern_brush_roughness"))
 	$Color.color = config.GET("pattern_brush_color")
 	
-	$Pattern.item_selected.connect(_update_pattern)
+	$Pattern.pressed.connect(show_popup)
 	$PatternSize.value_changed.connect(_update_pattern_size)
 	$Rotation.value_changed.connect(_update_pattern_rotation)
 	$Offset/HBoxContainer/X.value_changed.connect(_update_pattern_offset.bind(true))
@@ -43,8 +25,17 @@ func _ready():
 	$Roughness.value_changed.connect(_update_brush_roughness)
 	$Color.color_changed.connect(_update_brush_color)
 	
+	chooser.selected.connect(_update_pattern)
+	chooser.base_pathes = ["res://Data/pattern"]
+	chooser.extensions = ["png", "jpg"]
+	chooser.selected_path = config.GET("pattern_texture")
+	
 	mouse_entered.connect(show_pattern.emit.bind(true))
 	mouse_exited.connect(show_pattern.emit.bind(false))
+
+func show_popup():
+	parent.popups.show()
+	chooser.show()
 
 signal update_pattern(b: CompressedTexture2D)
 signal update_pattern_size(s: float)
@@ -55,7 +46,7 @@ signal update_brush_roughness(r: float)
 signal update_brush_color(c: Color)
 
 func pattern() -> CompressedTexture2D:
-	return load(brushes[$Pattern.get_selected_id()])
+	return load(config.GET("pattern_texture"))
 
 func pattern_size() -> float:
 	return $PatternSize.get_value()
@@ -77,9 +68,17 @@ func brush_color() -> Color:
 
 
 
-func _update_pattern(id: int):
-	config.SET("pattern_texture", brushes[id])
-	update_pattern.emit(load(brushes[id]))
+func _update_pattern(path: String, icon: ImageTexture):
+	config.SET("pattern_texture", path)
+	
+	parent.remove_popup(chooser)
+	$Pattern.texture_normal = icon
+	$Pattern.texture_pressed = icon
+	$Pattern.texture_hover = icon
+	$Pattern.texture_disabled = icon
+	$Pattern.texture_focused = icon
+	
+	update_pattern.emit(load(path))
 
 func _update_pattern_size(s: float):
 	config.SET("pattern_size", s)

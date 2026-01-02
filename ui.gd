@@ -1,22 +1,23 @@
 extends CanvasLayer
 
-const POPUP_BOTTOM := preload("res://popups/popup_bottom.tscn")
-const POPUP_NEWMAP := preload("res://popups/newmap.tscn")
-const POPUP_SAVE := preload("res://popups/save.tscn")
-const POPUP_EXPORT := preload("res://popups/export.tscn")
+@onready var POPUP_NEWMAP := $Popup/HBoxContainer/VBoxContainer/NewMap
+@onready var POPUP_SAVE := $Popup/HBoxContainer/VBoxContainer/Save
+@onready var POPUP_EXPORT := $Popup/HBoxContainer/VBoxContainer/Export
 
+@onready var popups := $Popup
 @onready var submenus := $Submenus/ScrollContainer
 
 func is_hovered() -> bool:
-	var mouse_pos : Vector2 = $Panel.get_global_mouse_position()
-	return $Panel.get_global_rect().has_point(mouse_pos) or $Submenus.get_global_rect().has_point(mouse_pos) or $Popup.visible
+	return $Panel.get_local_mouse_position().x <= $Panel.size.x or $Submenus.get_local_mouse_position().x >= 0 or $Popup.visible
 
 func remove_popup(p):
-	if is_instance_valid(p):
-		p.queue_free()
+	p.hide()
 	
-	if ($Popup/HBoxContainer/VBoxContainer.get_child_count() - 1) <= 0:
-		$Popup.hide()
+	for popup in $Popup/HBoxContainer/VBoxContainer.get_children():
+		if popup.visible:
+			return
+	
+	$Popup.hide()
 
 func apply_popup(callback, p):
 	if is_instance_valid(p):
@@ -25,14 +26,11 @@ func apply_popup(callback, p):
 		callback.call(v)
 
 func add_popup(callback, popup):
-	var p = popup.instantiate()
-	var bottom = POPUP_BOTTOM.instantiate()
-	p.add_child(bottom)
+	popup.show()
 	
-	bottom.cancel.connect(remove_popup.bind(p))
-	bottom.apply.connect(apply_popup.bind(callback, p))
+	popup.bottom.cancel.connect(remove_popup.bind(popup), CONNECT_ONE_SHOT)
+	popup.bottom.apply.connect(apply_popup.bind(callback, popup), CONNECT_ONE_SHOT)
 	
-	$Popup/HBoxContainer/VBoxContainer.add_child(p)
 	$Popup.show()
 
 
@@ -66,8 +64,9 @@ func open_side():
 
 
 func close_side():
-	if !opening:
+	if !opening or $Submenus.get_local_mouse_position().x >= 0:
 		return
+	
 	opening = false
 	
 	if submenu_open_tween:
@@ -83,9 +82,13 @@ func close_side():
 func _ready():
 	$Popup.hide()
 	
+	for node in $Popup/HBoxContainer/VBoxContainer.get_children():
+		node.hide()
+	
 	$Panel/VBoxContainer/NewImage.pressed.connect(add_popup.bind(new_map, POPUP_NEWMAP))
 	$Panel/VBoxContainer/Save.pressed.connect(add_popup.bind(get_parent().save, POPUP_SAVE))
 	$Panel/VBoxContainer/Export.pressed.connect(add_popup.bind(get_parent().save, POPUP_EXPORT))
+	
 	$Panel/VBoxContainer/Brush.pressed.connect(select_brush_paint)
 	$Panel/VBoxContainer/Pattern.pressed.connect(select_pattern_paint)
 	

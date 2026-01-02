@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://df4ual73ydm06" path="res://popups/newmap.gd" id="1_gh7m4"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="NewMap" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
 alignment = 1

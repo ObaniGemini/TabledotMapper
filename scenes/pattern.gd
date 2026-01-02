@@ -4,6 +4,7 @@ extends Node2D
 @onready var full_pattern := $FullPattern/Sprite2D
 
 var brush_size := 512.0
+var roughness := 1.0
 var color := Color()
 
 func _ready():
@@ -44,7 +45,8 @@ func set_brush_size(s: float):
 	brush.material.set_shader_parameter("brush_size", brush_size)
 
 func set_brush_roughness(r: float):
-	brush.material.set_shader_parameter("brush_roughness", r)
+	roughness = r
+	brush.material.set_shader_parameter("brush_roughness", roughness)
 
 func set_brush_color(c: Color):
 	color = c
