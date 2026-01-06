@@ -1,4 +1,4 @@
-extends Node2D
+class_name Canvas extends Node2D
 
 var width := 1
 var height := 1
@@ -10,11 +10,15 @@ var height := 1
 @onready var viewport := $SubViewport
 @onready var brush := $Brush
 @onready var pattern := $Pattern
+@onready var grid := $SubViewport/Grid/Grid
 
 func _ready():
+	Input.set_use_accumulated_input(true)
 	print("Generating map of " + str(width) + "x" + str(height))
 	$SubViewport.size.x = width
 	$SubViewport.size.y = height
+	grid.size.x = width
+	grid.size.y = height
 	pattern.set_size(width, height)
 	
 	$SubViewport/Canvas.texture = texture
@@ -40,16 +44,26 @@ func _ready():
 	pattern.set_brush_roughness(get_parent().get_pattern_brush_roughness())
 	pattern.set_brush_color(get_parent().get_pattern_brush_color())
 	
+	grid.visible = get_parent().get_grid_visible()
+	grid.update_size(get_parent().get_grid_size())
+	grid.update_width(get_parent().get_grid_width())
+	grid.update_roughness(get_parent().get_grid_roughness())
+	grid.update_color(get_parent().get_grid_color())
 	
 	$History.init_canvas(width, height, canvas)
 	$History.changed.connect(history_changed)
 
+enum PaintMode {
+	Brush,
+	Pattern,
+	None
+}
 
-var paint_mode := false
-func set_paint_mode(paint_mode_pattern : bool):
+var paint_mode : PaintMode
+func set_paint_mode(paint_mode_pattern : PaintMode):
 	paint_mode = paint_mode_pattern
-	$Brush.visible = !paint_mode
-	$Pattern.visible = paint_mode
+	$Brush.visible = paint_mode == PaintMode.Brush
+	$Pattern.visible = paint_mode == PaintMode.Pattern
 	
 
 func history_changed(type: History.Type, state):
@@ -70,7 +84,7 @@ func pattern_blit():
 
 var canvas_updated := false
 func paint(pos: Vector2):
-	if !get_parent().can_edit():
+	if !get_parent().can_edit() or paint_mode == PaintMode.None:
 		return
 	
 	var brush_size : int = int(pattern.brush_size) if paint_mode else brush.size
@@ -91,7 +105,7 @@ func paint(pos: Vector2):
 		return
 	
 	
-	if paint_mode:
+	if paint_mode == PaintMode.Pattern:
 		#if !canvas_updated:
 			###var im : Image = pattern.get_full_pattern()
 			###for x in width:
@@ -110,7 +124,7 @@ func paint(pos: Vector2):
 				#pattern_canvas.set_pixelv(canvas_pos, c)
 		
 		TabledotImage.blend_circle(tmp_canvas, pattern.get_full_pattern(), canvas_rect, p, radius, pattern.roughness, pattern.color.a)
-	else:
+	elif paint_mode == PaintMode.Brush:
 		TabledotImage.blend_luminance_rect_to_rgba8(tmp_canvas, brush.image, brush_rect, canvas_rect.position, brush.modulate)
 		#canvas.blend_rect(brush.image, brush_rect, canvas_rect.position)
 	pattern_blit()

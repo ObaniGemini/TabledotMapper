@@ -17,9 +17,13 @@ uniform float brush_size : hint_range(1.0, 1024.0);
 uniform float brush_roughness : hint_range(0.0, 1.0);
 uniform vec2 brush_pos;
 
+float apply_roughness(float x, float roughness) {
+	return clamp(1.0 + (roughness - x)/(1.0 - roughness), 0.0, 1.0);
+}
+
 void fragment() {
 	float max_pixel = min(SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y);
-	
+
 	float xDiff = (SCREEN_UV.x - brush_pos.x) * max_pixel / SCREEN_PIXEL_SIZE.x;
 	float yDiff = (SCREEN_UV.y - brush_pos.y) * max_pixel / SCREEN_PIXEL_SIZE.y;
 	float brush_radius = brush_size * 0.5 * max_pixel;
@@ -38,9 +42,7 @@ void fragment() {
 	if (dist_to_center >= (brush_radius * brush_radius)) {
 		COLOR.a = 0.0;
 	} else if (brush_roughness < 1.0) {
-		float x = sqrt(dist_to_center)/brush_radius;
-		float d = clamp(1.0 + (brush_roughness - x)/(1.0 - brush_roughness), 0.0, 1.0);
-		COLOR.a *= d;
+		COLOR.a *= apply_roughness(sqrt(dist_to_center)/brush_radius, brush_roughness);
 		//COLOR.rgb /= d;
 	}
 }

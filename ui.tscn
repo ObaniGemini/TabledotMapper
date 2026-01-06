@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://bcr83y22mm7cp"]
 
-[ext_resource type="Texture2D" uid="uid://cq8addigbiajh" path="res://Data/menu/new.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://tuplu0io8054" path="res://ui.gd" id="1_m6e0p"]
-[ext_resource type="Texture2D" uid="uid://cdf0h64eba66c" path="res://Data/menu/save.png" id="3_27fn8"]
-[ext_resource type="Texture2D" uid="uid://cc180hcg6o08y" path="res://Data/menu/export.png" id="4_n5ude"]
+[ext_resource type="Texture2D" uid="uid://cbiqjtajj0nyw" path="res://Data/menu/main.png" id="2_n5rqp"]
 [ext_resource type="Texture2D" uid="uid://d3i1p4a6a35xm" path="res://Data/menu/brush.png" id="4_nltto"]
 [ext_resource type="PackedScene" uid="uid://djnig1eitlucs" path="res://submenus/brush.tscn" id="5_ibotj"]
 [ext_resource type="Texture2D" uid="uid://bx526f3f358fx" path="res://Data/menu/pattern.png" id="6_y4yjw"]
+[ext_resource type="Texture2D" uid="uid://bof3l65a027u6" path="res://Data/menu/grid.png" id="7_cxd00"]
 [ext_resource type="PackedScene" uid="uid://g03wsqigjovs" path="res://submenus/pattern.tscn" id="8_waa4j"]
+[ext_resource type="PackedScene" uid="uid://bund5k24rsnkr" path="res://submenus/gridparameters.tscn" id="9_gs482"]
 [ext_resource type="PackedScene" uid="uid://hocki3sk716a" path="res://popups/newmap.tscn" id="10_gs482"]
 [ext_resource type="PackedScene" uid="uid://cstxgpkcpcbla" path="res://popups/save.tscn" id="11_cxd00"]
 [ext_resource type="PackedScene" uid="uid://mulm3unw6d8b" path="res://popups/export.tscn" id="12_etlur"]
@@ -22,39 +22,21 @@ script = ExtResource("1_m6e0p")
 
 [node name="Panel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(64, 960)
-offset_right = 64.0
-offset_bottom = 720.0
-scale = Vector2(0.75, 0.75)
+offset_right = 128.0
+offset_bottom = 1920.0
+scale = Vector2(0.375, 0.375)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
 
-[node name="NewImage" type="TextureButton" parent="Panel/VBoxContainer"]
+[node name="Main" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "New/Load map"
-texture_normal = ExtResource("1_fyqef")
-texture_pressed = ExtResource("1_fyqef")
-texture_hover = ExtResource("1_fyqef")
-texture_disabled = ExtResource("1_fyqef")
-texture_focused = ExtResource("1_fyqef")
-
-[node name="Save" type="TextureButton" parent="Panel/VBoxContainer"]
-layout_mode = 2
-tooltip_text = "Save map"
-texture_normal = ExtResource("3_27fn8")
-texture_pressed = ExtResource("3_27fn8")
-texture_hover = ExtResource("3_27fn8")
-texture_disabled = ExtResource("3_27fn8")
-texture_focused = ExtResource("3_27fn8")
-
-[node name="Export" type="TextureButton" parent="Panel/VBoxContainer"]
-layout_mode = 2
-tooltip_text = "Save map"
-texture_normal = ExtResource("4_n5ude")
-texture_pressed = ExtResource("4_n5ude")
-texture_hover = ExtResource("4_n5ude")
-texture_disabled = ExtResource("4_n5ude")
-texture_focused = ExtResource("4_n5ude")
+tooltip_text = "Paint tool"
+texture_normal = ExtResource("2_n5rqp")
+texture_pressed = ExtResource("2_n5rqp")
+texture_hover = ExtResource("2_n5rqp")
+texture_disabled = ExtResource("2_n5rqp")
+texture_focused = ExtResource("2_n5rqp")
 
 [node name="Brush" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -73,6 +55,15 @@ texture_pressed = ExtResource("6_y4yjw")
 texture_hover = ExtResource("6_y4yjw")
 texture_disabled = ExtResource("6_y4yjw")
 texture_focused = ExtResource("6_y4yjw")
+
+[node name="Grid" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Grid"
+texture_normal = ExtResource("7_cxd00")
+texture_pressed = ExtResource("7_cxd00")
+texture_hover = ExtResource("7_cxd00")
+texture_disabled = ExtResource("7_cxd00")
+texture_focused = ExtResource("7_cxd00")
 
 [node name="SideMenu" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(32, 64)
@@ -112,6 +103,9 @@ TEXTURE_CHOOSER = NodePath("../../../Popup/HBoxContainer/VBoxContainer/BrushChoo
 [node name="Patternparameters" parent="Submenus/ScrollContainer" instance=ExtResource("8_waa4j")]
 layout_mode = 2
 TEXTURE_CHOOSER = NodePath("../../../Popup/HBoxContainer/VBoxContainer/PatternChooser")
+
+[node name="Gridparameters" parent="Submenus/ScrollContainer" instance=ExtResource("9_gs482")]
+layout_mode = 2
 
 [node name="Popup" type="PanelContainer" parent="."]
 visible = false

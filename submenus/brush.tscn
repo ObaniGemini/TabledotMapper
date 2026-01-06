@@ -29,6 +29,7 @@ min_value = 2.0
 max_value = 2048.0
 step = 2.0
 rounded = true
+label_min_x = 70.0
 
 [node name="HSeparator" type="HSeparator" parent="."]
 self_modulate = Color(1, 1, 1, 0)

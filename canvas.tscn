@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://caem05fuym3pk"]
+[gd_scene load_steps=7 format=3 uid="uid://caem05fuym3pk"]
 
 [ext_resource type="Script" uid="uid://yi5ttqv6yjdw" path="res://canvas.gd" id="1_75aqd"]
 [ext_resource type="Script" uid="uid://bq6ay37px25nx" path="res://history.gd" id="2_15w7l"]
 [ext_resource type="PackedScene" uid="uid://c5tmtheuiwpqe" path="res://scenes/brush.tscn" id="2_pfdkn"]
 [ext_resource type="PackedScene" uid="uid://casir5ghic12r" path="res://scenes/pattern.tscn" id="3_k4n84"]
+[ext_resource type="PackedScene" uid="uid://bmfppvlqn8nvg" path="res://scenes/grid.tscn" id="3_rjejc"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_75aqd"]
 viewport_path = NodePath("SubViewport")
@@ -23,6 +24,26 @@ centered = false
 
 [node name="PatternCanvas" type="Sprite2D" parent="SubViewport"]
 centered = false
+
+[node name="Props" type="CanvasLayer" parent="SubViewport"]
+follow_viewport_enabled = true
+
+[node name="Grid" type="CanvasLayer" parent="SubViewport"]
+layer = 50
+follow_viewport_enabled = true
+
+[node name="Grid" parent="SubViewport/Grid" instance=ExtResource("3_rjejc")]
+offset_right = 2048.0
+offset_bottom = 2048.0
+mouse_filter = 2
+
+[node name="Text" type="CanvasLayer" parent="SubViewport"]
+layer = 100
+follow_viewport_enabled = true
+
+[node name="PostProcess" type="CanvasLayer" parent="SubViewport"]
+layer = 128
+follow_viewport_enabled = true
 
 [node name="Viewport" type="Sprite2D" parent="."]
 texture = SubResource("ViewportTexture_75aqd")

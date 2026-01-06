@@ -18,7 +18,7 @@ func new_map(dim: Array):
 	canvas = CANVAS_CLASS.instantiate()
 	canvas.width = dim[0]
 	canvas.height = dim[1]
-	canvas.set_paint_mode(false)
+	canvas.set_paint_mode(Canvas.PaintMode.Brush)
 	add_child(canvas)
 
 func save(map_name: String):
@@ -26,10 +26,16 @@ func save(map_name: String):
 		$UI.error("map name is empty")
 		return
 	
-	canvas.viewport.get_texture().get_image().save_png("user://" + map_name + ".png")
+	var file_name := "user://" + map_name + ".png"
+	var idx := 1
+	while FileAccess.file_exists(file_name):
+		idx += 1
+		file_name = "user://" + map_name + "_" + str(idx) + ".png"
+	
+	canvas.viewport.get_texture().get_image().save_png(file_name)
 
 
-func set_paint_mode(pattern: bool):
+func set_paint_mode(pattern: Canvas.PaintMode):
 	if canvas:
 		canvas.set_paint_mode(pattern)
 
@@ -39,41 +45,32 @@ func can_edit() -> bool:
 
 
 
+
+func brush_texture(im: Image): if canvas: canvas.brush.update_brush(im)
+func brush_size(s: int): if canvas: canvas.brush.update_size(s)
 func brush_color(c: Color):
 	$UI.brushparameters.set_color(c)
 	if canvas: canvas.brush.modulate = c
 
-func brush_size(s: int):
-	if canvas: canvas.brush.update_size(s)
-
-func brush_texture(im: Image):
-	if canvas: canvas.brush.update_brush(im)
 
 
-
-func pattern_texture(t: CompressedTexture2D):
-	if canvas: canvas.pattern.set_pattern(t)
-
-func pattern_size(s: float):
-	if canvas: canvas.pattern.set_pattern_size(s)
-
-func pattern_rotation(r: float):
-	if canvas: canvas.pattern.set_pattern_rotation(r)
-
-func pattern_offset(o: Vector2):
-	if canvas: canvas.pattern.set_pattern_offset(o)
-
-func pattern_brush_size(s: float):
-	if canvas: canvas.pattern.set_brush_size(s)
-
-func pattern_brush_roughness(s: float):
-	if canvas: canvas.pattern.set_brush_roughness(s)
-
+func pattern_texture(t: CompressedTexture2D): if canvas: canvas.pattern.set_pattern(t)
+func pattern_size(s: float): if canvas: canvas.pattern.set_pattern_size(s)
+func pattern_rotation(r: float): if canvas: canvas.pattern.set_pattern_rotation(r)
+func pattern_offset(o: Vector2): if canvas: canvas.pattern.set_pattern_offset(o)
+func pattern_brush_size(s: float): if canvas: canvas.pattern.set_brush_size(s)
+func pattern_brush_roughness(s: float): if canvas: canvas.pattern.set_brush_roughness(s)
 func pattern_brush_color(c: Color):
 	$UI.patternparameters.set_brush_color(c)
 	if canvas: canvas.pattern.set_brush_color(c)
 
 
+func grid_visible(b: bool): if canvas: canvas.grid.visible = b
+func grid_size(s: int): if canvas: canvas.grid.update_size(s)
+func grid_width(s: int): if canvas: canvas.grid.update_width(s)
+func grid_roughness(s: float): if canvas: canvas.grid.update_roughness(s)
+func grid_negative(s: float): if canvas: canvas.grid.update_negative(s)
+func grid_color(c: Color): if canvas: canvas.grid.update_color(c)
 
 
 
@@ -88,6 +85,13 @@ func get_pattern_offset(): return $UI.patternparameters.pattern_offset()
 func get_pattern_brush_size(): return $UI.patternparameters.brush_size()
 func get_pattern_brush_roughness(): return $UI.patternparameters.brush_roughness()
 func get_pattern_brush_color(): return $UI.patternparameters.brush_color()
+
+func get_grid_visible(): return $UI.gridparameters.get_visible()
+func get_grid_size(): return $UI.gridparameters.size()
+func get_grid_width(): return $UI.gridparameters.width()
+func get_grid_roughness(): return $UI.gridparameters.roughness()
+func get_grid_negative(): return $UI.gridparameters.negative()
+func get_grid_color(): return $UI.gridparameters.color()
 
 
 func _input(event: InputEvent) -> void:

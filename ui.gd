@@ -25,7 +25,14 @@ func apply_popup(callback, p):
 		remove_popup(p)
 		callback.call(v)
 
-func add_popup(callback, popup):
+func add_popup(popup):
+	popup.show()
+	
+	popup.bottom.cancel.connect(remove_popup.bind(popup), CONNECT_ONE_SHOT)
+	
+	$Popup.show()
+
+func add_callback_popup(callback, popup):
 	popup.show()
 	
 	popup.bottom.cancel.connect(remove_popup.bind(popup), CONNECT_ONE_SHOT)
@@ -79,22 +86,25 @@ func close_side():
 
 @onready var brushparameters := $Submenus/ScrollContainer/Brushparameters
 @onready var patternparameters := $Submenus/ScrollContainer/Patternparameters
+@onready var gridparameters := $Submenus/ScrollContainer/Gridparameters
 func _ready():
 	$Popup.hide()
 	
 	for node in $Popup/HBoxContainer/VBoxContainer.get_children():
 		node.hide()
 	
-	$Panel/VBoxContainer/NewImage.pressed.connect(add_popup.bind(new_map, POPUP_NEWMAP))
-	$Panel/VBoxContainer/Save.pressed.connect(add_popup.bind(get_parent().save, POPUP_SAVE))
-	$Panel/VBoxContainer/Export.pressed.connect(add_popup.bind(get_parent().save, POPUP_EXPORT))
+	$Panel/VBoxContainer/Main.pressed.connect(add_callback_popup.bind(new_map, POPUP_NEWMAP))
+	#$Panel/VBoxContainer/NewImage.pressed.connect(add_callback_popup.bind(new_map, POPUP_NEWMAP))
+	#$Panel/VBoxContainer/Save.pressed.connect(add_callback_popup.bind(get_parent().save, POPUP_SAVE))
+	#$Panel/VBoxContainer/Export.pressed.connect(add_callback_popup.bind(get_parent().save, POPUP_EXPORT))
 	
 	$Panel/VBoxContainer/Brush.pressed.connect(select_brush_paint)
 	$Panel/VBoxContainer/Pattern.pressed.connect(select_pattern_paint)
+	$Panel/VBoxContainer/Grid.pressed.connect(select_grid)
 	
 	
-	$Panel/VBoxContainer/Save.disabled = true
-	$Panel/VBoxContainer/Export.disabled = true
+	#$Panel/VBoxContainer/Save.disabled = true
+	#$Panel/VBoxContainer/Export.disabled = true
 	
 	$SideMenu.mouse_entered.connect(open_side)
 	$Submenus.mouse_entered.connect(open_side)
@@ -113,15 +123,26 @@ func _ready():
 	patternparameters.update_brush_roughness.connect(get_parent().pattern_brush_roughness)
 	patternparameters.update_brush_color.connect(get_parent().pattern_brush_color)
 	
+	gridparameters.update_visible.connect(get_parent().grid_visible)
+	gridparameters.update_size.connect(get_parent().grid_size)
+	gridparameters.update_width.connect(get_parent().grid_width)
+	gridparameters.update_roughness.connect(get_parent().grid_roughness)
+	gridparameters.update_negative.connect(get_parent().grid_negative)
+	gridparameters.update_color.connect(get_parent().grid_color)
+	
 	select_brush_paint()
 
 func select_brush_paint():
 	show_submenu($Submenus/ScrollContainer/Brushparameters)
-	get_parent().set_paint_mode(false)
+	get_parent().set_paint_mode(Canvas.PaintMode.Brush)
 
 func select_pattern_paint():
 	show_submenu($Submenus/ScrollContainer/Patternparameters)
-	get_parent().set_paint_mode(true)
+	get_parent().set_paint_mode(Canvas.PaintMode.Pattern)
+
+func select_grid():
+	show_submenu($Submenus/ScrollContainer/Gridparameters)
+	get_parent().set_paint_mode(Canvas.PaintMode.None)
 
 
 func show_submenu(submenu):
@@ -132,5 +153,5 @@ func show_submenu(submenu):
 
 func new_map(dim: Array):
 	get_parent().new_map(dim)
-	$Panel/VBoxContainer/Save.disabled = false
-	$Panel/VBoxContainer/Export.disabled = false
+	#$Panel/VBoxContainer/Save.disabled = false
+	#$Panel/VBoxContainer/Export.disabled = false

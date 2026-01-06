@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmfppvlqn8nvg"]
+
+[ext_resource type="Script" uid="uid://cxekda4h51dx2" path="res://scenes/grid.gd" id="1_t5fjg"]
+
+[sub_resource type="Shader" id="Shader_k4n84"]
+code = "shader_type canvas_item;
+
+uniform sampler2D screen : hint_screen_texture;
+
+uniform float size : hint_range(16.0, 512.0);
+uniform float width : hint_range(0.0, 0.25);
+uniform float roughness : hint_range(0.0, 1.0);
+uniform float negative : hint_range(0.0, 1.0);
+
+float apply_roughness(float x, float r) {
+	return clamp(1.0 + (r - x)/(1.0 - r), 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 uv = abs(SCREEN_UV - vec2(0.5, 0.5));
+	float p_x = mod(uv.x / SCREEN_PIXEL_SIZE.x, size);
+	float p_y = mod(uv.y / SCREEN_PIXEL_SIZE.y, size);
+	float grid_limit1 = width * size;
+	float grid_limit2 = (1.0 - width) * size;
+	if (p_x < grid_limit1 || p_x > grid_limit2 || p_y < grid_limit1 || p_y > grid_limit2) {
+		if (roughness != 1.0) {
+			float a1 = max((grid_limit1 - p_x)/grid_limit1, (grid_limit1 - p_y)/grid_limit1);
+			float a2 = max((p_x - grid_limit2)/grid_limit1, (p_y - grid_limit2)/grid_limit1);
+			float a = max(a1, a2);
+			COLOR.a *= apply_roughness(1.0 - a * a, roughness);
+		}
+
+		vec3 c = texture(screen, SCREEN_UV).rgb;
+		COLOR.rgb = mix(COLOR.rgb, vec3(1.0 - c.r, 1.0 - c.g, 1.0 - c.b), negative);
+	} else {
+		COLOR.a = 0.0;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rjejc"]
+shader = SubResource("Shader_k4n84")
+shader_parameter/size = 47.0000014725
+shader_parameter/width = 0.0290000013775
+shader_parameter/roughness = 1.0
+shader_parameter/negative = 0.0
+
+[node name="Grid" type="ColorRect"]
+material = SubResource("ShaderMaterial_rjejc")
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_t5fjg")

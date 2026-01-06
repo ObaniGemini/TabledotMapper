@@ -19,7 +19,7 @@ func _ready():
 	if no_text:
 		$Label.queue_free()
 	else:
-		$Label.text = name if custom_name == "" else custom_name
+		$Label.text = "  " + (name if custom_name == "" else custom_name)
 	
 	for node in [slider, input]:
 		node.min_value = min_value
