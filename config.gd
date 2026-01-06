@@ -14,6 +14,13 @@ const DEFAULT_CONFIG := {
 	"pattern_brush_size": 128.0,
 	"pattern_brush_roughness": 0.5,
 	"pattern_brush_color": Color(1, 1, 1),
+	
+	"grid_visible": false,
+	"grid_size": 4,
+	"grid_width": 2,
+	"grid_roughness": 0.0,
+	"grid_negative": 1.0,
+	"grid_color": Color(0, 0, 0),
 }
 
 const CONFIG_FILE := "user://config.save"
