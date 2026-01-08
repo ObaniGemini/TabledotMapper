@@ -1,9 +1,10 @@
-/* tabledotimage.h */
+#pragma once
 
-#ifndef TABLEDOTIMAGE_H
-#define TABLEDOTIMAGE_H
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/image.hpp>
 
-#include "core/io/image.h"
+using namespace godot;
 
 class TabledotImage : public RefCounted {
 	GDCLASS(TabledotImage, RefCounted);
@@ -16,7 +17,5 @@ public:
 	static void blend_luminance_rect_to_rgba8(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect, const Point2i &p_dest, const Color &p_color);
 	static void blend_rgba8_to_rgb8_clear(const Ref<Image> &p_dst, const Ref<Image> &p_src);
 	static void copy_no_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src);
-	static void add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect);
+	static void blend_circle(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect, const Point2i &center, int64_t radius, float roughness, float alpha);
 };
-
-#endif // TABLEDOTIMAGE_H

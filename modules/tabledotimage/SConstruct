@@ -2,7 +2,7 @@
 import os
 import sys
 
-env = SConscript("../../../godot-cpp/SConstruct")
+env = SConscript("../godot-cpp/SConstruct")
 
 # For reference:
 # - CCFLAGS are compilation flags shared between C and C++
@@ -19,7 +19,7 @@ lib_name = "libtabledotimage"
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "demo/bin/{}.{}.{}.framework/{}.{}.{}".format(lib_name,
+        "bin/{}.{}.{}.framework/{}.{}.{}".format(lib_name,
             env["platform"], env["target"], lib_name, env["platform"], env["target"]
         ),
         source=sources,
@@ -27,17 +27,17 @@ if env["platform"] == "macos":
 elif env["platform"] == "ios":
     if env["ios_simulator"]:
         library = env.StaticLibrary(
-            "demo/bin/{}.{}.{}.simulator.a".format(lib_name, env["platform"], env["target"]),
+            "bin/{}.{}.{}.simulator.a".format(lib_name, env["platform"], env["target"]),
             source=sources,
         )
     else:
         library = env.StaticLibrary(
-            "demo/bin/{}.{}.{}.a".format(lib_name, env["platform"], env["target"]),
+            "bin/{}.{}.{}.a".format(lib_name, env["platform"], env["target"]),
             source=sources,
         )
 else:
     library = env.SharedLibrary(
-        "demo/bin/{}{}{}".format(lib_name, env["suffix"], env["SHLIBSUFFIX"]),
+        "bin/{}{}{}".format(lib_name, env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 

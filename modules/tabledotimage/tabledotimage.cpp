@@ -1,22 +1,78 @@
-/* tabledotimage.cpp */
-
 #include "tabledotimage.h"
+
+using namespace godot;
 
 template <typename T>
 static T MinMaxColor(T src, T dst) {
 	return MIN(MAX(dst, src), src + dst);
 }
 
+template <typename T>
+static constexpr T Square(T x) { return x * x; }
+
+
+static int get_format_pixel_size(Image::Format p_format) {
+	switch (p_format) {
+		case Image::Format::FORMAT_L8:
+		case Image::Format::FORMAT_R8:
+		case Image::Format::FORMAT_DXT1:
+		case Image::Format::FORMAT_DXT3:
+		case Image::Format::FORMAT_DXT5:
+		case Image::Format::FORMAT_RGTC_R:
+		case Image::Format::FORMAT_RGTC_RG:
+		case Image::Format::FORMAT_BPTC_RGBA:
+		case Image::Format::FORMAT_BPTC_RGBF:
+		case Image::Format::FORMAT_BPTC_RGBFU:
+		case Image::Format::FORMAT_ETC:
+		case Image::Format::FORMAT_ETC2_R11:
+		case Image::Format::FORMAT_ETC2_R11S:
+		case Image::Format::FORMAT_ETC2_RG11:
+		case Image::Format::FORMAT_ETC2_RG11S:
+		case Image::Format::FORMAT_ETC2_RGB8:
+		case Image::Format::FORMAT_ETC2_RGBA8:
+		case Image::Format::FORMAT_ETC2_RGB8A1:
+		case Image::Format::FORMAT_ETC2_RA_AS_RG:
+		case Image::Format::FORMAT_DXT5_RA_AS_RG:
+		case Image::Format::FORMAT_ASTC_4x4:
+		case Image::Format::FORMAT_ASTC_4x4_HDR:
+		case Image::Format::FORMAT_ASTC_8x8:
+		case Image::Format::FORMAT_ASTC_8x8_HDR:
+			return 1;
+		case Image::Format::FORMAT_LA8:
+		case Image::Format::FORMAT_RGBA4444:
+		case Image::Format::FORMAT_RGB565:
+		case Image::Format::FORMAT_RG8:
+		case Image::Format::FORMAT_RH:
+			return 2;
+		case Image::Format::FORMAT_RGB8:
+			return 3;
+		case Image::Format::FORMAT_RGBA8:
+		case Image::Format::FORMAT_RF:
+		case Image::Format::FORMAT_RGH:
+		case Image::Format::FORMAT_RGBE9995:
+			return 4;
+		case Image::Format::FORMAT_RGBH:
+			return 6;
+		case Image::Format::FORMAT_RGF:
+		case Image::Format::FORMAT_RGBAH:
+			return 8;
+		case Image::Format::FORMAT_RGBF:
+			return 12;
+		case Image::Format::FORMAT_RGBAF:
+			return 16;
+	}
+	return 0;
+}
+
+
 Ref<Image> TabledotImage::make_luminance_image(const Ref<Image> &p_src) {
-	Ref<Image> output;
-	output.instantiate();
-	output->initialize_data(p_src->get_width(), p_src->get_height(), p_src->has_mipmaps(), Image::Format::FORMAT_LA8);
+	Ref<Image> output = Image::create_empty(p_src->get_width(), p_src->get_height(), p_src->has_mipmaps(), Image::Format::FORMAT_LA8);
 
 	uint8_t *dst_ptr = output->ptrw();
 	const uint8_t *src_ptr = p_src->ptr();
 
 	constexpr uint64_t LA8_PIXEL_SIZE = 2;
-	uint64_t pixel_size = Image::get_format_pixel_size(p_src->get_format());
+	uint64_t pixel_size = get_format_pixel_size(p_src->get_format());
 	uint64_t pixel_size_minus_1 = pixel_size - 1;
 	uint64_t end = p_src->get_height() * p_src->get_width();
 
@@ -121,7 +177,7 @@ void TabledotImage::copy_no_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_s
 	uint8_t *dst_ptr = p_dst->ptrw();
 	const uint8_t *src_ptr = p_src->ptr();
 
-	int pixel_size = Image::get_format_pixel_size(p_dst->get_format());
+	int pixel_size = get_format_pixel_size(p_dst->get_format());
 
 	for (int x = 0; x < p_dst->get_width(); x++) {
 		for (int y = 0; y < p_dst->get_height(); y++) {
@@ -136,7 +192,7 @@ void TabledotImage::copy_no_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_s
 }
 
 
-void TabledotImage::add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect) {
+void TabledotImage::blend_circle(const Ref<Image> &p_dst, const Ref<Image> &p_src, const Rect2i &p_src_rect, const Point2i &center, int64_t radius, float roughness, float alpha) {
 	ERR_FAIL_COND_MSG(p_src.is_null(), "Cannot blit_rect an image: invalid src Image object.");
 	ERR_FAIL_COND_MSG(p_dst.is_null(), "Cannot blit_rect an image: invalid dst Image object.");
 	ERR_FAIL_COND(p_dst->get_width() != p_src->get_width() || p_dst->get_height() != p_src->get_height());
@@ -146,18 +202,29 @@ void TabledotImage::add_only_alpha(const Ref<Image> &p_dst, const Ref<Image> &p_
 	uint8_t *dst_ptr = p_dst->ptrw();
 	const uint8_t *src_ptr = p_src->ptr();
 
-	uint64_t pixel_size = Image::get_format_pixel_size(p_dst->get_format());
+	uint64_t pixel_size = get_format_pixel_size(p_dst->get_format());
 
-	uint64_t end_x = p_src_rect.position.x + p_src_rect.size.x;
-	uint64_t end_y = p_src_rect.position.y + p_src_rect.size.y;
-	uint64_t width = p_dst->get_width();
+	int64_t end_x = p_src_rect.position.x + p_src_rect.size.x;
+	int64_t end_y = p_src_rect.position.y + p_src_rect.size.y;
+	int64_t width = p_dst->get_width();
 
-	for (uint64_t y = p_src_rect.position.y; y < end_y; y++) {
-		for (uint64_t x = p_src_rect.position.x; x < end_x; x++) {
-			uint64_t pos = (y * width + x) * pixel_size + 3;
-			uint16_t dst_px = dst_ptr[pos];
-			uint16_t src_px = src_ptr[pos];
-			dst_ptr[pos] = uint8_t(MinMaxColor(src_px, dst_px));
+	int64_t square_radius = radius * radius;
+	float float_radius = radius;
+
+	for (int64_t y = p_src_rect.position.y; y < end_y; y++) {
+		for (int64_t x = p_src_rect.position.x; x < end_x; x++) {
+			int64_t dist = Square(x - center.x) + Square(y - center.y);
+
+			if (dist >= square_radius)
+				continue;
+
+			int64_t pos = (y * width + x) * pixel_size;
+			dst_ptr[pos + 0] = src_ptr[pos + 0];
+			dst_ptr[pos + 1] = src_ptr[pos + 1];
+			dst_ptr[pos + 2] = src_ptr[pos + 2];
+
+			float d = CLAMP(1.f + (roughness - sqrt(dist)/float_radius)/(1.0 - roughness), 0.f, 1.f);
+			dst_ptr[pos + 3] = uint8_t(MinMaxColor(uint8_t(src_ptr[pos + 3] * d * alpha), dst_ptr[pos + 3]));
 		}
 	}
 }
@@ -168,5 +235,4 @@ void TabledotImage::_bind_methods() {
 	ClassDB::bind_static_method("TabledotImage", D_METHOD("blend_luminance_rect_to_rgba8", "dst", "src", "src_rect", "dst_pos", "color"), &TabledotImage::blend_luminance_rect_to_rgba8);
 	ClassDB::bind_static_method("TabledotImage", D_METHOD("blend_rgba8_to_rgb8_clear", "dst", "src"), &TabledotImage::blend_rgba8_to_rgb8_clear);
 	ClassDB::bind_static_method("TabledotImage", D_METHOD("copy_no_alpha", "dst", "src"), &TabledotImage::copy_no_alpha);
-	ClassDB::bind_static_method("TabledotImage", D_METHOD("add_only_alpha", "dst", "src", "src_rect"), &TabledotImage::add_only_alpha);
-}
+	ClassDB::bind_static_method("TabledotImage", D_METHOD("blend_circle", "dst", "src", "src_rect", "center", "radius", "roughness", "alpha"), &TabledotImage::blend_circle);}
